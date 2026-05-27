@@ -1,0 +1,22 @@
+/* =========================================
+   HOME PAGE (MAIN DESK LAYOUT)
+   ========================================= */
+
+.main-desk-section {
+    display: flex;
+    justify-content: space-between;
+    padding: 58px 50px 50px 112px; 
+    gap: 40px;
+    max-width: 1920px;
+    margin: 0 auto;
+}
+
+.profile-column { position: relative; display: flex; width: 630px; }
+.info-column { flex: 1; display: flex; flex-direction: column; align-items: flex-end; margin-top: 16px; margin-right: 71px; }
+
+/* --- HOME DECORATIONS --- */
+.decor-20 { position: absolute; bottom: 30px; left: -50px; z-index: -1; }
+.decor-18 { position: absolute; top: 260px; left: 500px; z-index: -1; }
+.decor-19 { position: absolute; bottom: 60px; right: 80px; z-index: -1; }
+.decor-15 { position: absolute; top: -25px; left: -20px; z-index: -1; }
+.decor-16, .decor-17 { flex: 1; height: 24px; object-fit: contain; object-position: right center; z-index: -1; }

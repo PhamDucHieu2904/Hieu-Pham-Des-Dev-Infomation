@@ -1,0 +1,22 @@
+/* =========================================
+   VARIABLES & FONTS
+   ========================================= */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;900&display=swap');
+
+@font-face {
+    font-family: 'Oryno';
+    src: url('../assets/fonts/ORYNO-REGULAR.TTF') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+:root {
+    --bg-main: #ffffff;
+    --header-bg: #f8f8f8;
+    --dark-navy: #001532;
+    --light-grey: #e6e6e6;
+    --text-dark: #1a1a1a;
+    --text-light: #ffffff;
+    --accent-blue: #00d2ff;
+}
