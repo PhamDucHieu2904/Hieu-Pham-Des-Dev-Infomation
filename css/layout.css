@@ -115,20 +115,25 @@
         position: absolute;
         bottom: 15px;
         left: 28px;
-        /* KHÓA CỨNG KÍCH THƯỚC: 1080 - 28(trái) - 28(phải) = 1024px */
         width: 1024px; 
         height: 63px;
         display: flex;
-        justify-content: space-between;
+        /* SỬA CHỖ NÀY: Dùng flex-start để các nút neo từ trái qua phải, không tự động giãn nữa */
+        justify-content: flex-start; 
     }
     
     .nav-btn {
         height: 63px;
         font-size: 22px;
-        flex: 1; 
+        
+        /* 1. XÓA DÒNG "flex: 1;" ĐI VÀ THÊM CHIỀU RỘNG VÀO ĐÂY */
+        width: 290px; /* BẠN ĐIỀU CHỈNH CHIỀU RỘNG Ở SỐ NÀY */
+        
         clip-path: polygon(0% 0%, calc(100% - 55px) 0%, 100% 100%, 55px 100%);
-        margin-left: 0px;
-        /* Ép chữ luôn nằm giữa một cách hoàn hảo */
+        
+        /* 2. ĐIỀU CHỈNH KHOẢNG CÁCH (ĐỘ ĐÈ NHAU) Ở ĐÂY */
+        margin-left: -45px; /* Vì bạn vát 55px, nên để margin âm sâu hơn để các nút rúc vào nhau */
+        
         display: flex;
         align-items: center;
         justify-content: center;
@@ -139,10 +144,8 @@
     }
     
     .btn-text {
-        /* Bỏ padding cũ đi vì đã dùng flex align-items ở trên */
         padding-left: 0; 
     }
-
     /* 4. CÁC HỌA TIẾT (ASSETS) VÀO ĐÚNG TỌA ĐỘ */
     
     /* Bật lại hiển thị cho các họa tiết */
