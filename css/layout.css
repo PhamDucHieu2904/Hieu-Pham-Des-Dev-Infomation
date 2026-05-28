@@ -77,9 +77,15 @@
    MOBILE RESPONSIVE (MÀN HÌNH DỌC - BASE 1080PX)
    ========================================= */
 @media (orientation: portrait) {
-    /* Trạng thái 1: Ép Logo ra giữa màn hình Mobile (Canvas 1080px) */
+    
+    /* 1. KHÓA CỨNG CANVAS MOBILE LÀ 1080PX (Cực kỳ quan trọng) */
+    body {
+        width: 1080px;
+        overflow-x: hidden;
+    }
+
+    /* Trạng thái 1: Ép Logo ra giữa màn hình Mobile */
     body.intro-step-1 .main-logo {
-        /* Tâm Mobile (540px) - Lề trái (74px) - Nửa Logo (50%) = 466px */
         transform: translate(calc(466px - 50%), 600px) scale(4);
     }
     
@@ -90,12 +96,12 @@
 
     /* 2. HEADER: Kích thước 1080 x 316 */
     .top-header {
-        position: relative; /* Trở thành gốc tọa độ cho các Asset */
+        position: relative; 
         width: 1080px;
         height: 316px;
         padding: 0; 
         top: 0;
-        flex-direction: column;
+        display: block; /* QUAN TRỌNG: Hủy bỏ Flexbox ngang của PC */
     }
 
     /* HP Logo */
@@ -110,7 +116,7 @@
         width: auto;
     }
 
-/* 3. NAV BAR (4 Nút bấm) */
+    /* 3. NAV BAR (4 Nút bấm) */
     .nav-menu {
         position: absolute;
         bottom: 15px;
@@ -118,151 +124,32 @@
         width: 1024px; 
         height: 63px;
         display: flex;
-        /* SỬA CHỖ NÀY: Dùng flex-start để các nút neo từ trái qua phải, không tự động giãn nữa */
         justify-content: flex-start; 
     }
     
     .nav-btn {
         height: 63px;
         font-size: 22px;
-        
-        /* 1. XÓA DÒNG "flex: 1;" ĐI VÀ THÊM CHIỀU RỘNG VÀO ĐÂY */
-        width: 290px; /* BẠN ĐIỀU CHỈNH CHIỀU RỘNG Ở SỐ NÀY */
-        
+        width: 290px; 
         clip-path: polygon(0% 0%, calc(100% - 55px) 0%, 100% 100%, 55px 100%);
-        
-        /* 2. ĐIỀU CHỈNH KHOẢNG CÁCH (ĐỘ ĐÈ NHAU) Ở ĐÂY */
-        margin-left: -45px; /* Vì bạn vát 55px, nên để margin âm sâu hơn để các nút rúc vào nhau */
-        
+        margin-left: -45px; 
         display: flex;
         align-items: center;
         justify-content: center;
     }
     
-    .nav-btn:first-child {
-        margin-left: 0;
-    }
-    
-    .btn-text {
-        padding-left: 0; 
-    }
+    .nav-btn:first-child { margin-left: 0; }
+    .btn-text { padding-left: 0; }
+
     /* 4. CÁC HỌA TIẾT (ASSETS) VÀO ĐÚNG TỌA ĐỘ */
-    
-    /* Bật lại hiển thị cho các họa tiết */
     .decor-asset-2, .decor-asset-3, .decor-asset-4, .decor-dots {
         display: block;
         position: absolute;
     }
 
-    /* Asset 2 (Trái Trên) */
-    .decor-asset-2 {
-        height: 27px;
-        left: 421px;
-        top: 0px;
-    }
-
-    /* Asset 4 (Trái Dưới - Nằm trên Nav bar) */
-    .decor-asset-4 {
-        height: 156px;
-        left: 0px;
-        bottom: 98px; /* 15(lề) + 63(nút) + 20(khoảng cách) = 98px */
-    }
-
-    /* Asset 3 (Phải Dưới) */
-    .decor-asset-3 {
-        height: 82px;
-        right: 0px;
-        bottom: 25px;
-        top: auto; /* Xóa tọa độ top cũ của PC */
-    }
-
-    /* 5 Dấu chấm tròn */
-    .decor-dots {
-        display: flex;
-        left: 584px;
-        bottom: 126px;
-    }
-
-    /* Ẩn các hình vuông nhỏ vì không có trong thiết kế mới */
-    .decor-squares {
-        display: none;
-    }
-    /* =========================================
-       KHU VỰC NỘI DUNG (MAIN DESK CANVAS 1080px)
-       ========================================= */
-    .main-desk-section {
-        position: relative; /* Trở thành bảng vẽ tọa độ tuyệt đối */
-        width: 1080px;
-        height: 900px; /* Tạm thời set 900px chứa đủ Avatar, sẽ nới rộng ra khi ghép ID Card sau */
-        padding: 0;
-        display: block; /* Hủy bỏ Flexbox của PC */
-        margin-top: 0;
-    }
-
-    /* Phá vỡ bức tường cột để tự do nhấc các khối con đi muôn nơi */
-    .profile-column, .info-column {
-        display: contents; 
-    }
-
-    /* --- 1. KHUNG AVATAR --- */
-    .profile-card {
-        position: absolute;
-        top: 38px;
-        left: 60px; /* Cách mép trái 60px */
-        width: 500px; 
-        height: 775px; /* Tăng chiều cao lên 775px */
-        
-        /* Cập nhật toán học: Góc dưới phải bị cắt sâu vào 90px */
-        clip-path: polygon(67px 0, 100% 0, 100% calc(100% - 90px), calc(100% - 90px) 100%, 0 100%, 0 67px);
-        margin: 0;
-    }
-
-    /* Kéo theo lớp mask bên trong cũng phải cắt theo tỷ lệ 90px (chừa 10px viền đáy) */
-    .avatar-mask {
-        clip-path: polygon(67px 0, 100% 0, 100% calc(100% - 100px), calc(100% - 90px) calc(100% - 10px), 0 calc(100% - 10px), 0 67px);
-    }
-
-    /* --- 2. CORE TECH STACK --- */
-    .tech-stack-section {
-        position: absolute;
-        top: 38px;
-        right: 110px; /* Cách mép phải 110px */
-        width: auto;
-        margin: 0;
-        align-items: flex-start; /* Ép nội dung bên trong neo sang trái */
-    }
-
-    /* Reset lại phần tiêu đề để không bị tràn dài 974px như trên PC */
-    .tech-header {
-        width: 100%;
-        margin-bottom: 25px;
-    }
-    .section-title {
-        width: auto;
-    }
-
-    /* TUYỆT CHIÊU BÀN CỜ (CSS GRID) CHO CÁC NÚT */
-    .tech-buttons-wrapper {
-        display: grid;
-        grid-template-columns: repeat(2, 150px); /* Ép 2 cột, mỗi cột đúng 150px */
-        gap: 25px; /* Khoảng cách 25px mọi hướng */
-    }
-
-    /* Tăng kích thước Button */
-    .tech-btn {
-        width: 150px;
-        height: 150px;
-    }
-
-    /* Phóng to Icon & Chữ cho cân đối với nút 150px */
-    .tech-icon-wrap img {
-        max-height: 80px; 
-    }
-    
-    .tech-label {
-        height: 28px;
-        font-size: 14px;
-        margin: 0 8px 8px 8px; /* Tăng nhẹ lề trong cho hài hòa */
-        clip-path: polygon(0 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%);
-    }
+    .decor-asset-2 { height: 27px; left: 421px; top: 0px; }
+    .decor-asset-4 { height: 156px; left: 0px; bottom: 98px; }
+    .decor-asset-3 { height: 82px; right: 0px; bottom: 25px; top: auto; }
+    .decor-dots { display: flex; left: 584px; bottom: 126px; }
+    .decor-squares { display: none; }
 }
