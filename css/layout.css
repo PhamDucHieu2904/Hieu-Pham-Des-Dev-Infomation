@@ -126,8 +126,8 @@
         height: 63px;
         font-size: 22px;
         flex: 1; 
-        clip-path: polygon(0% 0%, calc(100% - 25px) 0%, 100% 100%, 25px 100%);
-        margin-left: -20px;
+        clip-path: polygon(0% 0%, calc(100% - 55px) 0%, 100% 100%, 55px 100%);
+        margin-left: 0px;
         /* Ép chữ luôn nằm giữa một cách hoàn hảo */
         display: flex;
         align-items: center;
