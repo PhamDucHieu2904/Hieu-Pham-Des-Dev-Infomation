@@ -187,4 +187,82 @@
     .decor-squares {
         display: none;
     }
+    /* =========================================
+       KHU VỰC NỘI DUNG (MAIN DESK CANVAS 1080px)
+       ========================================= */
+    .main-desk-section {
+        position: relative; /* Trở thành bảng vẽ tọa độ tuyệt đối */
+        width: 1080px;
+        height: 900px; /* Tạm thời set 900px chứa đủ Avatar, sẽ nới rộng ra khi ghép ID Card sau */
+        padding: 0;
+        display: block; /* Hủy bỏ Flexbox của PC */
+        margin-top: 0;
+    }
+
+    /* Phá vỡ bức tường cột để tự do nhấc các khối con đi muôn nơi */
+    .profile-column, .info-column {
+        display: contents; 
+    }
+
+    /* --- 1. KHUNG AVATAR --- */
+    .profile-card {
+        position: absolute;
+        top: 38px;
+        left: 60px; /* Cách mép trái 60px */
+        width: 500px; 
+        height: 775px; /* Tăng chiều cao lên 775px */
+        
+        /* Cập nhật toán học: Góc dưới phải bị cắt sâu vào 90px */
+        clip-path: polygon(67px 0, 100% 0, 100% calc(100% - 90px), calc(100% - 90px) 100%, 0 100%, 0 67px);
+        margin: 0;
+    }
+
+    /* Kéo theo lớp mask bên trong cũng phải cắt theo tỷ lệ 90px (chừa 10px viền đáy) */
+    .avatar-mask {
+        clip-path: polygon(67px 0, 100% 0, 100% calc(100% - 100px), calc(100% - 90px) calc(100% - 10px), 0 calc(100% - 10px), 0 67px);
+    }
+
+    /* --- 2. CORE TECH STACK --- */
+    .tech-stack-section {
+        position: absolute;
+        top: 38px;
+        right: 110px; /* Cách mép phải 110px */
+        width: auto;
+        margin: 0;
+        align-items: flex-start; /* Ép nội dung bên trong neo sang trái */
+    }
+
+    /* Reset lại phần tiêu đề để không bị tràn dài 974px như trên PC */
+    .tech-header {
+        width: 100%;
+        margin-bottom: 25px;
+    }
+    .section-title {
+        width: auto;
+    }
+
+    /* TUYỆT CHIÊU BÀN CỜ (CSS GRID) CHO CÁC NÚT */
+    .tech-buttons-wrapper {
+        display: grid;
+        grid-template-columns: repeat(2, 150px); /* Ép 2 cột, mỗi cột đúng 150px */
+        gap: 25px; /* Khoảng cách 25px mọi hướng */
+    }
+
+    /* Tăng kích thước Button */
+    .tech-btn {
+        width: 150px;
+        height: 150px;
+    }
+
+    /* Phóng to Icon & Chữ cho cân đối với nút 150px */
+    .tech-icon-wrap img {
+        max-height: 80px; 
+    }
+    
+    .tech-label {
+        height: 28px;
+        font-size: 14px;
+        margin: 0 8px 8px 8px; /* Tăng nhẹ lề trong cho hài hòa */
+        clip-path: polygon(0 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%);
+    }
 }
