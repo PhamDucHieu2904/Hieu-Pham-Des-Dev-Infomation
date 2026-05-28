@@ -20,3 +20,26 @@
 .decor-19 { position: absolute; bottom: 60px; right: 80px; z-index: -1; }
 .decor-15 { position: absolute; top: -25px; left: -20px; z-index: -1; }
 .decor-16, .decor-17 { flex: 1; height: 24px; object-fit: contain; object-position: right center; z-index: -1; }
+
+/* =========================================
+   MOBILE RESPONSIVE CHO MAIN DESK
+   ========================================= */
+@media (max-width: 768px) {
+    /* Bẻ gãy cấu trúc Flex ngang thành dọc */
+    .main-desk-section {
+        flex-direction: column;
+        padding: 20px; /* Thu hẹp lề để tiết kiệm diện tích */
+        gap: 30px;
+    }
+
+    /* Cho phép 2 cột chính tràn kín 100% chiều ngang màn hình */
+    .profile-column, .info-column {
+        width: 100%;
+        margin: 0;
+    }
+
+    /* Tạm ẩn các họa tiết lớn đang bị tràn ra khỏi màn hình điện thoại */
+    .decor-18, .decor-19, .decor-20 {
+        display: none;
+    }
+}

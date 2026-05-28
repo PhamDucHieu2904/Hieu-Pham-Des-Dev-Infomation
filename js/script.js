@@ -1,42 +1,31 @@
 /* =========================================
-   HỆ THỐNG AUTO-SCALE & ĐIỀU HƯỚNG MOBILE
+   HỆ THỐNG AUTO-SCALE ĐỒNG NHẤT (PC & MOBILE)
    ========================================= */
-
-// Hàm 1: Chỉ chạy đúng 1 lần khi mới vào web để ép tỷ lệ chuẩn
-function setInitialScale() {
-    const screenWidth = window.innerWidth;
-    const screenHeight = window.innerHeight;
-
-    // Chỉ tính tỷ lệ nếu đang ở màn hình ngang (Laptop/PC)
-    if (screenWidth >= screenHeight) {
-        const scaleFactor = screenWidth / 1920;
-        document.body.style.zoom = scaleFactor;
-    }
-}
-
-// Hàm 2: Hàm kiểm tra Mobile (Chỉ dùng để bật/tắt thông báo)
-function checkMobileLayout() {
-    const screenWidth = window.innerWidth;
-    const screenHeight = window.innerHeight;
+function applySmartScaling() {
+    // Ép trình duyệt đọc kích thước phần cứng thực tế, chống lỗi F5
+    const screenWidth = document.documentElement.clientWidth || window.innerWidth;
+    const screenHeight = document.documentElement.clientHeight || window.innerHeight;
 
     if (screenHeight > screenWidth) {
+        // --- 1. MÀN HÌNH DỌC (MOBILE) ---
+        const scaleFactor = screenWidth / 1080;
+        document.body.style.zoom = scaleFactor;
         document.body.classList.add('is-mobile-device');
     } else {
+        // --- 2. MÀN HÌNH NGANG (PC) ---
+        const scaleFactor = screenWidth / 1920;
+        document.body.style.zoom = scaleFactor;
         document.body.classList.remove('is-mobile-device');
     }
 }
 
-// THỰC THI:
-// 1. Ép tỷ lệ 1 lần duy nhất ngay lúc vừa tải trang
-setInitialScale();
+// Chạy 1 lần lúc vừa tải trang
+applySmartScaling();
+window.addEventListener('resize', applySmartScaling);
 
-// 2. Kiểm tra layout mobile ngay lúc tải trang
-checkMobileLayout();
+// (Phần code animation bên dưới giữ nguyên)
 
-// 3. Lắng nghe sự kiện: Chỉ chạy lại hàm checkMobileLayout khi resize
-// (Không chạy lại hàm setInitialScale nữa để người dùng tự do Zoom)
-window.addEventListener('resize', checkMobileLayout);
-
+// Hệ thống Intro Animation
 document.addEventListener("DOMContentLoaded", () => {
     const body = document.body;
     body.classList.add('intro-step-1');
@@ -47,7 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
         body.classList.add('intro-step-2');
     }, 1000); 
 
-    // Sau 2s: Nội dung chính bắt đầu trượt xuống và Fade in (opacity 0 -> 1)
+    // Sau 2s: Nội dung chính bắt đầu trượt xuống và Fade in
     setTimeout(() => {
         body.classList.remove('intro-step-2');
     }, 2000); 
