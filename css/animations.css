@@ -1,9 +1,9 @@
 /* =========================================
-   ANIMATIONS & EFFECTS (PHƯƠNG PHÁP ĐỘC LẬP MỚI)
+   ANIMATIONS & EFFECTS
    ========================================= */
 
 /* -----------------------------------------
-   1. INTRO ANIMATION - BẢN PC (TRẢ LẠI 100% NGUYÊN BẢN CỦA BẠN)
+   1. INTRO ANIMATION
    ----------------------------------------- */
 .main-logo { transition: transform 1s cubic-bezier(0.77, 0, 0.17, 1); transform-origin: center center; }
 .top-header > *:not(.logo-container), .site-footer { transition: opacity 1s ease-in-out, margin-top 1s cubic-bezier(0.77, 0, 0.17, 1); }
@@ -23,10 +23,9 @@ body:not(.intro-step-1):not(.intro-step-2) .main-wrapper { grid-template-rows: 1
 
 
 /* -----------------------------------------
-   2. INTRO ANIMATION - BẢN MOBILE (KEYFRAME TỰ ĐỘNG CHẠY)
+   2. INTRO ANIMATION - BẢN MOBILE
    ----------------------------------------- */
 @media (orientation: portrait) {
-    /* Chặn tất cả tác động của PC lên Logo Mobile */
     body.intro-step-1 .main-logo,
     body.intro-step-2 .main-logo,
     .main-logo {
@@ -34,7 +33,6 @@ body:not(.intro-step-1):not(.intro-step-2) .main-wrapper { grid-template-rows: 1
         transition: none !important;
     }
 
-    /* Cho Logo TỰ ĐỘNG chạy trọn vẹn 1 kịch bản 2.2s không phụ thuộc vào JS */
     .main-logo {
         transform-origin: left top;
         animation: mobileFlySequence 2.2s cubic-bezier(0.25, 1, 0.5, 1) forwards !important;
@@ -42,12 +40,11 @@ body:not(.intro-step-1):not(.intro-step-2) .main-wrapper { grid-template-rows: 1
 
     @keyframes mobileFlySequence {
         0% { transform: translate(250px, 1200px) scale(2.2); opacity: 0; }
-        25% { transform: translate(250px, 450px) scale(2.2); opacity: 1; }  /* Bay lên giữa */
-        60% { transform: translate(250px, 450px) scale(2.2); opacity: 1; }  /* Dừng lại tạo dáng */
-        100% { transform: translate(0, 0) scale(1); opacity: 1; }           /* Lùi về góc trái */
+        25% { transform: translate(250px, 450px) scale(2.2); opacity: 1; }  
+        60% { transform: translate(250px, 450px) scale(2.2); opacity: 1; }  
+        100% { transform: translate(0, 0) scale(1); opacity: 1; }           
     }
 
-    /* --- XỬ LÝ FOOTER HÍT CHẶT VÀ TRƯỢT XUỐNG DƯỚI ĐÁY --- */
     body.intro-step-1 .main-desk-section,
     body.intro-step-2 .main-desk-section {
         height: 0 !important;
@@ -62,7 +59,6 @@ body:not(.intro-step-1):not(.intro-step-2) .main-wrapper { grid-template-rows: 1
         transition: height 1.2s ease-in-out, opacity 1s ease-in-out !important;
     }
 
-    /* Ẩn hiện Râu ria Header */
     body.intro-step-1 .decor-asset-3,
     body.intro-step-1 .decor-asset-2,
     body.intro-step-1 .decor-asset-4,
@@ -83,7 +79,7 @@ body:not(.intro-step-1):not(.intro-step-2) .main-wrapper { grid-template-rows: 1
 
 
 /* -----------------------------------------
-   3. HOLOGRAM SCAN & MATRIX CODE (Giữ nguyên của bạn)
+   3. HOLOGRAM SCAN & MATRIX CODE 
    ----------------------------------------- */
 .watermark-wrapper { position: absolute; top: 45px; left: 50%; transform: translateX(-50%); height: 536px; display: flex; justify-content: center; z-index: 1; }
 .scan-effect {
