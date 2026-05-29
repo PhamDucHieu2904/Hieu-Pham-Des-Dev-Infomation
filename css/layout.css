@@ -141,7 +141,7 @@
 
     .decor-asset-2 { height: 27px; left: 421px; top: 0px; }
     .decor-asset-4 { height: 156px; left: 0px; bottom: 98px; }
-    .decor-asset-3 { height: 82px; right: 0px; bottom: 25px; top: auto; }
+    .decor-asset-3 { height: 82px; right: 0px; bottom: 10px; top: auto; }
     .decor-dots { display: flex; left: 584px; bottom: 126px; }
     .decor-squares { display: none; }
 }
