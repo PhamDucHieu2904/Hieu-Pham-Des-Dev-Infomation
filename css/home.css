@@ -144,7 +144,11 @@
     .decor-19 {
         display: none;
     }
-
+    .decor-18{
+        top: 90px;
+        left: 565px;
+        height: 85px;
+    }
     /* Bật 2 họa tiết mới lên và thiết lập tọa độ tuyệt đối */
     .decor-19-mobile {
         display: block;

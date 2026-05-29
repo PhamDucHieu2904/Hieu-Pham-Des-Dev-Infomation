@@ -86,17 +86,22 @@
 
     /* 2. HEADER: Kích thước 1080 x 316 */
     .top-header {
-        position: relative; 
+        /* Bật công tắc hít dính nam châm */
+        position: sticky !important; 
+        top: -238px !important; 
+        z-index: 9999 !important; 
+        
         width: 1080px;
         height: 316px;
-        padding: 0; 
-        top: 0;
+        padding: 0;
         display: block;
         overflow: visible !important; 
     }
+/* 1. KHÓA CỨNG CANVAS MOBILE (GIẢI CỨU STICKY) */
     html, body {
-        width: 1080px;
-        overflow-x: hidden !important; /* Dời lệnh cắt gọt ra tận ngoài cùng của web */
+        width: 1080px !important;
+        /* THAY hidden THÀNH clip: Vừa chống tràn ngang, vừa cho phép Sticky hoạt động! */
+        overflow-x: clip !important; 
     }
     /* HP Logo */
     .logo-container {

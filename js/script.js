@@ -19,7 +19,7 @@ function applySmartScaling() {
         // TUYỆT CHIÊU: Ép trình duyệt điện thoại khai báo màn hình rộng đúng 1080px
         // Trình duyệt sẽ TỰ ĐỘNG fit toàn bộ web vừa khít màn hình mượt mà 100%
         // Lệnh user-scalable=no sẽ KHÓA CHẶT không cho người dùng zoom bậy bạ
-        viewportMeta.setAttribute("content", "width=1080, user-scalable=no");
+        viewportMeta.setAttribute("content", "width=1080, user-scalable=yes");
         
         document.body.classList.add('is-mobile-device');
     } else {
@@ -51,10 +51,10 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
         body.classList.remove('intro-step-1');
         body.classList.add('intro-step-2');
-    }, 1000); 
+    }, 800); 
 
     // TĂNG LÊN 2800ms: Để logo có đủ thời gian lùi về góc và thả Footer xuống
     setTimeout(() => {
         body.classList.remove('intro-step-2');
-    }, 2000); 
+    }, 1500); 
 });
