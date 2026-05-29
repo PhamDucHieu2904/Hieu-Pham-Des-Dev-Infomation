@@ -20,10 +20,10 @@
 .decor-19 { position: absolute; bottom: 60px; right: 80px; z-index: -1; }
 .decor-15 { position: absolute; top: -25px; left: -20px; z-index: -1; }
 .decor-16, .decor-17 { flex: 1; height: 24px; object-fit: contain; object-position: right center; z-index: -1; }
+.decor-19-mobile {
+    display: none;
+}
 
-/* =========================================
-   MOBILE RESPONSIVE CHO MAIN DESK (CANVAS 1080PX)
-   ========================================= */
 /* =========================================
    MOBILE RESPONSIVE CHO MAIN DESK (CANVAS 1080PX)
    ========================================= */
@@ -32,7 +32,7 @@
     .main-desk-section {
         position: relative; 
         width: 1080px;
-        height: 1600px; /* Tăng tạm từ 900px lên 1600px để có chỗ test */
+        height: 1880px; /* Tăng tạm từ 900px lên 1600px để có chỗ test */
         padding: 0;
         display: block; 
         margin-top: 0;
@@ -60,7 +60,7 @@
     .tech-stack-section {
         position: absolute;
         top: 38px;
-        right: 110px; 
+        right: 90px; 
         /* KHÓA CỨNG KHUNG: 2 nút 150px + 1 khoảng trống 25px = 325px */
         /* Tuyệt đối không cho nó bung lề đè sang Avatar nữa! */
         width: 350px; 
@@ -98,14 +98,169 @@
     /* --- 3. FIX TẠM VỊ TRÍ ID CARD & DEPLOYMENT ĐỂ KHÔNG BỊ RỐI --- */
     .id-card-wrapper {
         position: absolute;
-        top: 860px; /* Đẩy xuống ngay dưới Avatar (38 + 775 + 47) */
+        top: 800px; /* Đẩy xuống ngay dưới Avatar (38 + 775 + 47) */
         left: 60px;
+        height: 292px;
+        width: auto;
+    }
+    .id-card-bg {
+        height: 100%;
     }
 
+    /* --- 4. CĂN CHỈNH LẠI NỘI DUNG BÊN TRONG THẺ ID --- */
+    
+    /* Nhấc toàn bộ cụm nội dung lên trên */
+    .id-text-fullname, 
+    .id-dashed-line, 
+    .id-text-base, 
+    .id-text-core {
+        /* Dùng số âm để kéo lên. Bạn có thể tăng giảm số -8px này (-10px, -12px...) 
+           để canh cho nó nằm ngay giữa khung nhé */
+        transform: translateY(-8px); 
+    }
+
+    /* Xử lý riêng đoạn văn bản Core Directive để ép về 2 dòng */
+    .id-text-core {
+        /* 1. Nới rộng khung chứa chữ ra gần sát lề của thẻ ID (960px) */
+        width: 880px; 
+        
+        /* 2. Ép giảm size chữ xuống một chút xíu (bạn có thể tự chỉnh số này cho vừa mắt) */
+        font-size: 19px; 
+        
+        /* 3. Tinh chỉnh lại khoảng cách giữa 2 dòng cho thoáng */
+        line-height: 1.5; 
+    }
+
+    .decor-15 {
+        display: none;
+    }
     .deployment-section {
         position: absolute;
         top: 1250px; /* Đẩy tít xuống dưới cùng */
         left: 60px;
         width: 960px; /* Ép lại chiều ngang cho khỏi tràn 1080px */
+    }
+    /* Tạm ẩn cái họa tiết decor-19 gốc của PC để nó không lọt xuống đáy nữa */
+    .decor-19 {
+        display: none;
+    }
+
+    /* Bật 2 họa tiết mới lên và thiết lập tọa độ tuyệt đối */
+    .decor-19-mobile {
+        display: block;
+        position: absolute;
+        height: 340px; /* Chiều cao xấp xỉ 2 hàng nút */
+        width: auto;
+        top: 440px; /* Tọa độ ngang hàng với nút C# và Js */
+        z-index: 0;
+    }
+
+    /* Căn chỉnh cái bên TRÁI */
+    .decor-19-left {
+        /* Đặt vào khe hở giữa Avatar (560px) và Tech Stack (645px) */
+        left: 585px; 
+    }
+
+    /* Căn chỉnh cái bên PHẢI */
+    .decor-19-right {
+        /* Bám sát lề phải, cách một khoảng bằng mép phải của Avatar */
+        right: 60px; 
+    }
+
+    /* --- 5. DEPLOYMENT RECORDS (TRÙM CUỐI) --- */
+    .deployment-section {
+        position: absolute;
+        /* Đẩy xuống dưới Thẻ ID Card (ID Card top 840 + cao 292 + khoảng cách 60 = 1192) */
+        /* Bạn có thể tự chỉnh số này lên/xuống để tạo khoảng cách vừa mắt */
+        top: 1100px; 
+        left: 60px;
+        width: 960px; /* Khóa cứng lề 2 bên */
+    }
+
+    /* Xử lý Tiêu đề & Họa tiết dải sọc */
+    .deployment-header {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        margin-bottom: 35px; 
+    }
+    .deployment-title {
+        width: auto !important; 
+        font-size: 38px;
+        white-space: nowrap; /* Chống rớt dòng chữ Deployment Records */
+    }
+    .decor-17 {
+        flex: 1; /* Ép họa tiết sọc chéo tự động giãn ra lấp đầy khoảng trống còn lại */
+        height: auto;
+    }
+    .decor-20{
+        display: none;
+    }
+    /* BIẾN 3 CỘT THÀNH 1 CỘT DỌC & TẠO VẠCH TIMELINE */
+    .records-grid {
+        display: flex;
+        flex-direction: column; /* Xếp chồng lên nhau theo chiều dọc */
+        gap: 25px; /* Khoảng cách giữa các công ty */
+        
+        /* Tạo đường viền dọc bên trái giống thiết kế */
+        border-left: 3px solid #8f96a3; /* Có thể đổi mã màu nếu bạn có biến màu riêng */
+        padding-left: 25px; /* Đẩy chữ cách xa đường viền ra một chút */
+        margin-left: 5px; 
+    }
+
+    /* Reset lại chiều rộng của các cột */
+    .record-col {
+        width: 100% !important; 
+        border: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    /* Tinh chỉnh lại kích thước chữ cho dễ đọc trên Mobile */
+    .company-name {
+        font-size: 28px;
+        margin-bottom: 5px;
+    }
+    .role-title {
+        font-size: 24px;
+        margin-bottom: 12px;
+    }
+    .desc-text {
+        font-size: 22px;
+        line-height: 1.5;
+    }
+
+    /* Cột số 3 thực chất là đoạn nối tiếp của cột số 2, nên ta kéo nó gần lại một chút */
+    .col-3 {
+        margin-top: -10px;
+    }
+    /* --- HIỆU ỨNG INTRO CHO MOBILE --- */
+    
+    .logo-container {
+        position: absolute;
+        top: 72px;
+        left: 74px;
+        margin: 0;
+        z-index: 1000; /* Đảm bảo logo luôn nổi lên trên cùng lúc bay */
+    }
+
+    .main-logo {
+        height: 91px;
+        width: auto;
+        /* Cốt lõi của sự mượt mà: Thời gian bay 1.2s với gia tốc chậm dần ở cuối */
+        transition: transform 1.2s cubic-bezier(0.25, 1, 0.5, 1); 
+    }
+
+    /* Trạng thái 1: Vừa vào web -> Logo to đùng ở giữa màn hình */
+    body.intro-step-1 .main-logo {
+        /* Toán học: 
+           Màn hình 1080 -> Giữa là 540px. Logo đang ở trái 74px -> Cần dịch sang phải 466px.
+           Dịch xuống 400px cho vừa tầm mắt dọc. Scale to lên 3.5 lần. */
+        transform: translate(calc(466px - 50%), 400px) scale(3.5);
+    }
+    
+    /* Trạng thái 2: Bay về vị trí gốc */
+    body.intro-step-2 .main-logo {
+        transform: translate(0, 0) scale(1);
     }
 }

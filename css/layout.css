@@ -101,7 +101,10 @@
         height: 316px;
         padding: 0; 
         top: 0;
-        display: block; /* QUAN TRỌNG: Hủy bỏ Flexbox ngang của PC */
+        display: block; 
+        
+        /* TUYỆT CHIÊU CẮT GỌT: Bất cứ họa tiết nào tràn ra khỏi khung 1080x316 đều bị giấu đi */
+        overflow: hidden; 
     }
 
     /* HP Logo */
