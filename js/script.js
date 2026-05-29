@@ -13,13 +13,20 @@ function applySmartScaling() {
 
     if (isPortrait) {
         // --- 1. MÀN HÌNH DỌC (MOBILE) ---
-        // XÓA BỎ lệnh zoom rác gây vỡ layout trên điện thoại
         document.body.style.zoom = ""; 
         
-        // TUYỆT CHIÊU: Ép trình duyệt điện thoại khai báo màn hình rộng đúng 1080px
-        // Trình duyệt sẽ TỰ ĐỘNG fit toàn bộ web vừa khít màn hình mượt mà 100%
-        // Lệnh user-scalable=no sẽ KHÓA CHẶT không cho người dùng zoom bậy bạ
-        viewportMeta.setAttribute("content", "width=1080, user-scalable=yes");
+        // 1. Lấy bề ngang vật lý của màn hình điện thoại người dùng (Ví dụ: 390px hoặc 414px)
+        const screenWidth = window.screen.width;
+        
+        // 2. Tính toán tỷ lệ thu nhỏ để 1080px nhét vừa khít vào màn hình
+        // Ví dụ máy rộng 390px -> Tỷ lệ là: 390 / 1080 = 0.361
+        const initialScale = screenWidth / 1080;
+        
+        // 3. Ép tỷ lệ này vào thẻ Meta
+        // - width=1080: Giữ nguyên bàn làm việc 1080px cho CSS hoạt động
+        // - initial-scale: Ép trình duyệt phải thu nhỏ đúng tỷ lệ đã tính ở trên ngay khi load
+        // - user-scalable=yes: Cho phép người dùng zoom in/out thoải mái sau đó
+        viewportMeta.setAttribute("content", `width=1080, initial-scale=${initialScale}, user-scalable=yes`);
         
         document.body.classList.add('is-mobile-device');
     } else {
