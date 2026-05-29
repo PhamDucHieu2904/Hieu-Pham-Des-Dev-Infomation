@@ -234,33 +234,4 @@
     .col-3 {
         margin-top: -10px;
     }
-    /* --- HIỆU ỨNG INTRO CHO MOBILE --- */
-    
-    .logo-container {
-        position: absolute;
-        top: 72px;
-        left: 74px;
-        margin: 0;
-        z-index: 1000; /* Đảm bảo logo luôn nổi lên trên cùng lúc bay */
-    }
-
-    .main-logo {
-        height: 91px;
-        width: auto;
-        /* Cốt lõi của sự mượt mà: Thời gian bay 1.2s với gia tốc chậm dần ở cuối */
-        transition: transform 1.2s cubic-bezier(0.25, 1, 0.5, 1); 
-    }
-
-    /* Trạng thái 1: Vừa vào web -> Logo to đùng ở giữa màn hình */
-    body.intro-step-1 .main-logo {
-        /* Toán học: 
-           Màn hình 1080 -> Giữa là 540px. Logo đang ở trái 74px -> Cần dịch sang phải 466px.
-           Dịch xuống 400px cho vừa tầm mắt dọc. Scale to lên 3.5 lần. */
-        transform: translate(calc(466px - 50%), 400px) scale(3.5);
-    }
-    
-    /* Trạng thái 2: Bay về vị trí gốc */
-    body.intro-step-2 .main-logo {
-        transform: translate(0, 0) scale(1);
-    }
 }

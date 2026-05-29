@@ -84,16 +84,6 @@
         overflow-x: hidden;
     }
 
-    /* Trạng thái 1: Ép Logo ra giữa màn hình Mobile */
-    body.intro-step-1 .main-logo {
-        transform: translate(calc(466px - 50%), 600px) scale(4);
-    }
-    
-    /* Trạng thái 2: Logo lùi về góc đúng vị trí trên Mobile */
-    body.intro-step-2 .main-logo {
-        transform: translate(0, 0) scale(1);
-    }
-
     /* 2. HEADER: Kích thước 1080 x 316 */
     .top-header {
         position: relative; 
@@ -101,12 +91,13 @@
         height: 316px;
         padding: 0; 
         top: 0;
-        display: block; 
-        
-        /* TUYỆT CHIÊU CẮT GỌT: Bất cứ họa tiết nào tràn ra khỏi khung 1080x316 đều bị giấu đi */
-        overflow: hidden; 
+        display: block;
+        overflow: visible !important; 
     }
-
+    html, body {
+        width: 1080px;
+        overflow-x: hidden !important; /* Dời lệnh cắt gọt ra tận ngoài cùng của web */
+    }
     /* HP Logo */
     .logo-container {
         position: absolute;

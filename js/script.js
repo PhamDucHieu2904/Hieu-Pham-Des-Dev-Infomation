@@ -30,14 +30,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const body = document.body;
     body.classList.add('intro-step-1');
 
-    // Sau 1s: Logo bay về góc, Header/Footer hiện ra
+    // TĂNG LÊN 1500ms: Để logo bay vút lên (1s) và có 0.5s dừng lại ngầu lòi ở giữa
     setTimeout(() => {
         body.classList.remove('intro-step-1');
         body.classList.add('intro-step-2');
-    }, 1000); 
+    }, 1500); 
 
-    // Sau 2s: Nội dung chính bắt đầu trượt xuống và Fade in
+    // TĂNG LÊN 2800ms: Để logo có đủ thời gian lùi về góc và thả Footer xuống
     setTimeout(() => {
         body.classList.remove('intro-step-2');
-    }, 2000); 
+    }, 2800); 
 });
