@@ -1,0 +1,189 @@
+/* =========================================
+   DESIGN LAB SECTION
+   ========================================= */
+.design-lab-section {
+    position: relative;
+    width: 1920px;
+    height: 1080px; 
+    margin: 0 auto;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; 
+}
+
+/* --- GALAXY BACKGROUND ANIMATION --- */
+.dl-space-bg {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: #050914; 
+    background-image: url('../assets/Galaxy-Background.webp'); 
+    background-repeat: repeat; 
+    background-size: 100% auto; 
+    z-index: 1;
+    animation: galaxyScrollDown 40s linear infinite;
+}
+@keyframes galaxyScrollDown {
+    0% { background-position: 0 0; }
+    100% { background-position: 0 1080px; }
+}
+
+/* =========================================
+   DESIGN LAB - SVG INTEGRATION & EFFECTS
+   ========================================= */
+
+.dl-container {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px; 
+}
+
+/* --- 1. TITLE FRAME --- */
+.dl-top-title {
+    position: relative;
+    height: 86px; 
+    width: 547px; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 31px; 
+    flex-shrink: 0; 
+}
+.dl-top-title svg { height: 100%; width: 100%; display: block; }
+.dl-top-title h2 {
+    position: absolute;
+    top: 50%; left: 50%; transform: translate(-50%, -55%);
+    color: #ffffff; font-size: 28px; font-weight: 900; letter-spacing: 2px;
+}
+
+/* --- 2. 3D CAROUSEL STAGE --- */
+.dl-carousel-stage {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px; 
+    margin-bottom: 40px;
+    width: 100%;
+}
+.dl-panel {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.4s ease, filter 0.4s ease;
+    flex-shrink: 0;
+}
+
+/* TẤM CHÍNH GIỮA: CAO CHÍNH XÁC 485PX */
+.center-panel { 
+    height: 550px; 
+    width: 991px; 
+    z-index: 5; 
+    margin-left: 5px;
+}
+.center-panel svg { height: 100%; width: 100%; display: block; }
+.center-panel:hover { filter: drop-shadow(0 0 20px rgba(0, 210, 255, 0.5)); }
+
+/* Hiệu ứng chớp sáng LED Viền neon */
+.main-led {
+    fill: #001532; stroke: #00d2ff; stroke-width: 3px;
+    animation: ledPulse 1.5s infinite alternate;
+}
+@keyframes ledPulse {
+    0% { filter: drop-shadow(0 0 2px #00d2ff); opacity: 0.5; }
+    100% { filter: drop-shadow(0 0 15px #00d2ff); opacity: 1; }
+}
+
+/* 2 Tấm Bên Hông (Chờ bạn chỉnh sau) */
+.left-panel, .right-panel {
+    height: 450px; 
+    width: 290px;
+    opacity: 0.7;
+    margin-top: 15px; 
+}
+.left-panel svg, .right-panel svg { height: 100%; width: 100%; display: block; }
+.right-panel svg { transform: scaleX(-1); }
+.left-panel:hover, .right-panel:hover { opacity: 1; transform: translateY(-10px); }
+
+/* --- 3. BUTTONS --- */
+.dl-nav-buttons {
+    display: flex; gap: 10px; z-index: 10; margin-top: -80px;
+}
+
+.dl-btn {
+    position: relative;
+    --btn-bg-color: #D1D3D4;
+    --btn-stroke-color: transparent;
+    
+    height: 50px; 
+    width: 268px; 
+    
+    /* Flexbox sẽ tự động căn giữa chữ tuyệt đối */
+    display: flex; justify-content: center; align-items: center;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+}
+
+/* Đưa SVG chìm xuống làm nền (z-index: -1) để chữ nổi lên giữa */
+.dl-btn svg { 
+    position: absolute; top: 0; left: 0;
+    width: 100%; height: 100%; display: block; 
+    z-index: -1; 
+}
+
+/* 1. ĐIỀU CHỈNH TỌA ĐỘ VÀ ĐỘ NGHIÊNG (X, Y) */
+/* Photoshop: Qua phải 20px, Xuống 10px, Nghiêng -2 độ */
+.btn-ps { transform: translate(35px, 5px) rotate(-2deg); }
+
+/* Illustrator: Nằm im ở giữa */
+.btn-ai { transform: translate(0, 0) rotate(0deg); }
+
+/* Blender: Qua trái 20px, Xuống 10px, Nghiêng 2 độ */
+.btn-blender { transform: translate(-32px, 5px) rotate(2deg); }
+
+/* --- STYLE CHỮ --- */
+.dl-btn span {
+    position: relative; /* Trả về relative để ăn theo Flexbox của cha */
+    color: #001532; 
+    font-weight: 900; font-size: 17px; 
+    transition: color 0.3s;
+    margin-top: -2px; /* Tinh chỉnh nhẹ bằng mắt để chữ cân đối với hình học SVG */
+}
+
+/* --- TRẠNG THÁI HOVER / ACTIVE --- */
+.dl-btn:hover, .dl-btn.active {
+    --btn-bg-color: #001532;
+    --btn-stroke-color: #ffffff;
+}
+.dl-btn:hover span, .dl-btn.active span { color: #ffffff; }
+
+/* 2. HIỆU ỨNG NHẢY LÊN KHI HOVER */
+/* Giảm trục Y đi khoảng 4px để tạo cảm giác nảy lên nhưng vẫn giữ nguyên X và Góc nghiêng */
+.btn-ps:hover, .btn-ps.active { transform: translate(35px, 6px) rotate(-2deg); }
+.btn-ai:hover, .btn-ai.active { transform: translate(0, -4px) rotate(0deg); }
+.btn-blender:hover, .btn-blender.active { transform: translate(-35px, 6px) rotate(2deg); }
+
+
+/* --- SÀN CONG & HIỆU ỨNG TIA SÁNG CHẠY --- */
+.dl-floor-wrapper {
+    position: absolute;
+    bottom: -15px; left: 0;
+    width: 100%; 
+    z-index: 5;
+    pointer-events: none;
+}
+.dl-floor-wrapper svg { width: 100%; height: auto; display: block; }
+
+.floor-light {
+    stroke-dasharray: 200 4000; 
+    stroke-dashoffset: 4000;
+    animation: lightShoot 6s cubic-bezier(0.25, 1, 0.5, 1) infinite;
+}
+@keyframes lightShoot {
+    0% { stroke-dashoffset: 4000; }
+    100% { stroke-dashoffset: 0; }
+}
