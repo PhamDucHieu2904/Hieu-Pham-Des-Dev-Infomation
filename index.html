@@ -151,7 +151,22 @@
             </div>
         </section>
 
-        <svg style="display: none;" xmlns="http://www.w3.org/2000/svg">
+        <svg style="position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none;" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <linearGradient id="led-sweep" x1="0" y1="-1" x2="0" y2="0">
+                    
+                    <animate attributeName="y1" values="-1; 1; 1" keyTimes="0; 0.9; 1" dur="3s" repeatCount="indefinite" />
+                    <animate attributeName="y2" values="0; 2; 2" keyTimes="0; 0.9; 1" dur="3s" repeatCount="indefinite" />
+                    
+                    <stop offset="0%" stop-color="#001532" />
+                    <stop offset="35%" stop-color="#001532" />
+                    <stop offset="45%" stop-color="#00d2ff" />
+                    <stop offset="50%" stop-color="#ffffff" />
+                    <stop offset="55%" stop-color="#00d2ff" />
+                    <stop offset="65%" stop-color="#001532" />
+                    <stop offset="100%" stop-color="#001532" />
+                </linearGradient>
+            </defs>
             <symbol id="shape-button" viewBox="1449.1 329.5 268 50">
                 <path fill="var(--btn-bg-color, #e6e6e6)" stroke="var(--btn-stroke-color, transparent)" stroke-width="2" d="M1698.7,377.7c-77-1-154.1-1-231.1,0c-4-3.9-6.3-6-10.4-9.9c-0.2-10.5-0.2-15.8-0.4-26.3c3.9-4,6.2-6.2,10.1-10.2c77.5-1,154.9-1,232.4,0c4,4,6.2,6.2,10.1,10.2c-0.2,10.5-0.2,15.8-0.4,26.3C1705,371.7,1702.7,373.8,1698.7,377.7z"/>
             </symbol>
@@ -171,14 +186,14 @@
             <symbol id="shape-sidescreen" viewBox="38 -18 514 715">
                 <path fill="#001532" d="M117.1,38.7L464.6,98c17.5,3,30.3,18.1,30.3,35.9v431.6c0,17.7-12.8,32.9-30.3,35.9l-347.5,59.1c-22.2,3.8-42.5-13.3-42.5-35.8V74.6C74.6,52.1,94.9,34.9,117.1,38.7z"/>
                 <path fill="#FFFFFF" d="M111,661.6c-8.6,0-17-3-23.8-8.7c-8.3-7.1-13.1-17.3-13.1-28.2V74.6c0-10.9,4.8-21.2,13.1-28.2s19.3-10,30-8.2l347.5,59.3c17.8,3,30.7,18.3,30.7,36.4v431.6c0,18-12.9,33.3-30.7,36.4L117.2,661C115.1,661.4,113,661.6,111,661.6z M111,38.7c-8.4,0-16.6,3-23.1,8.5C79.7,54,75.1,64,75.1,74.6v550.1c0,10.6,4.6,20.6,12.7,27.4c8.1,6.8,18.7,9.7,29.2,7.9l347.5-59.3c17.3-3,29.8-17.8,29.8-35.4V133.9c0-17.5-12.6-32.4-29.8-35.4L117,39.2C115,38.9,113,38.7,111,38.7z"/>
-    
+                
                 <path id="led-stroke-track" fill="none" stroke="#FFFFFF" stroke-width="3" d="M127.1,28.7L474.6,88c17.5,3,30.3,18.1,30.3,35.9v431.6c0,17.7-12.8,32.9-30.3,35.9l-347.5,59.1c-22.2,3.8-42.5-13.3-42.5-35.9v-550C84.6,42.1,104.9,24.9,127.1,28.7z"/>
-                <path id="led-stroke" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" d="M127.1,28.7L474.6,88c17.5,3,30.3,18.1,30.3,35.9v431.6c0,17.7-12.8,32.9-30.3,35.9l-347.5,59.1c-22.2,3.8-42.5-13.3-42.5-35.9v-550C84.6,42.1,104.9,24.9,127.1,28.7z"/>
+                <path id="led-stroke" pathLength="100" fill="none" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round" d="M127.1,28.7L474.6,88c17.5,3,30.3,18.1,30.3,35.9v431.6c0,17.7-12.8,32.9-30.3,35.9l-347.5,59.1c-22.2,3.8-42.5-13.3-42.5-35.9v-550C84.6,42.1,104.9,24.9,127.1,28.7z"/>
             </symbol>
 
-            <symbol id="shape-floor" viewBox="5 725 2120 180">
+            <symbol id="shape-floor" viewBox="-40 680 2120 180">
                 <path fill="#FFFFFF" d="M2122,882H11.7c302-97,664.9-153.6,1055.2-153.6S1820,785,2122,882z"/>
-                <path class="floor-light" fill="none" stroke="#00d2ff" stroke-width="10" d="M11.7,902l-6.1-39c314.6-101.1,681.6-154.6,1061.2-154.6s746.6,53.4,1061.3,154.5l-6.1,39"/>
+                <path class="floor-light" fill="none" stroke="#FFFFFF" stroke-width="10" d="M11.7,902l-6.1-39c314.6-101.1,681.6-154.6,1061.2-154.6s746.6,53.4,1061.3,154.5l-6.1,39"/>
             </symbol>
         </svg>
 

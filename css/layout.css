@@ -61,6 +61,7 @@
     height: 27px; 
     position: relative; 
     background: linear-gradient(to right, #e8e8e8, #c0c1c2);
+    z-index: 9;
 }
 
 .footer-decor-2 {
@@ -70,7 +71,7 @@
     height: 27px;
     width: auto;
     transform: rotate(180deg); 
-    z-index: 1; 
+    z-index: 10; 
 }
 
 /* =========================================

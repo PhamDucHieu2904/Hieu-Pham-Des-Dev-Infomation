@@ -113,13 +113,18 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 150);
 
             // Đổi chữ Title
+            // Đổi chữ Title (Tận dụng hiệu ứng Glitch: lún xuống và nhỏ lại)
             const pageName = this.querySelector('span').innerText;
-            titleText.style.opacity = 0;
+            
+            // Ép class title-glitch vào để nó dùng transition của CSS
+            titleText.classList.add('title-glitch');
+            titleText.style.opacity = ''; // Xóa bỏ inline style cũ nếu có
             
             setTimeout(() => {
                 titleText.innerText = pageName;
-                titleText.style.opacity = 1;
-            }, 400); 
+                // Rút class ra để chữ bật nảy lên lại vị trí cũ
+                titleText.classList.remove('title-glitch');
+            }, 300); // Đổi thành 300ms cho khớp với nhịp độ của CSS 
 
             // 3. Sau khi Main Screen xoay đến nơi (150ms chờ + 800ms xoay = 950ms) thì nhả tàng hình ra!
             setTimeout(() => {

@@ -4,7 +4,7 @@
 .design-lab-section {
     position: relative;
     width: 1920px;
-    height: 1080px; 
+    height: 830px; 
     margin: 0 auto;
     overflow: hidden;
     display: flex;
@@ -49,7 +49,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: -10px; 
+    margin-top: -25px; 
     flex-shrink: 0; 
 }
 .dl-top-title svg { height: 100%; width: 100%; display: block; }
@@ -130,14 +130,11 @@
 .center-panel svg { height: 100%; width: 100%; display: block; overflow: visible;}
 .center-panel:hover { filter: drop-shadow(0 0 20px rgba(0, 210, 255, 0.5)); }
 
-/* Hiệu ứng chớp sáng LED Viền neon */
 .main-led {
-    fill: #001532; stroke: #00d2ff; stroke-width: 3px;
-    animation: ledPulse 1.5s infinite alternate;
-}
-@keyframes ledPulse {
-    0% { filter: drop-shadow(0 0 2px #00d2ff); opacity: 0.5; }
-    100% { filter: drop-shadow(0 0 15px #00d2ff); opacity: 1; }
+    /* Đổ màu nền và viền bằng gradient quét ánh sáng từ SVG */
+    fill: url(#led-sweep);
+    stroke: url(#led-sweep);
+    stroke-width: 3px;
 }
 
 /* 2 Tấm Bên Hông */
@@ -169,7 +166,7 @@
 
 /* --- 3. BUTTONS --- */
 .dl-nav-buttons {
-    display: flex; gap: 30px; z-index: 10; margin-top: -100px;
+    display: flex; gap: 30px; z-index: 10; margin-top: -95px;
 }
 
 .dl-btn {
@@ -214,28 +211,31 @@
 .dl-btn:hover span, .dl-btn.active span { color: #ffffff; }
 
 /* 2. HIỆU ỨNG NHẢY LÊN KHI HOVER */
-.btn-ps:hover, .btn-ps.active { transform: translate(35px, 6px) rotate(-2deg); }
-.btn-ai:hover, .btn-ai.active { transform: translate(0, -4px) rotate(0deg); }
-.btn-blender:hover, .btn-blender.active { transform: translate(-35px, 6px) rotate(2deg); }
+.btn-ps:hover, .btn-ps.active { transform: translate(35px, 5px) rotate(-2deg); }
+.btn-ai:hover, .btn-ai.active { transform: translate(0, 0px) rotate(0deg); }
+.btn-blender:hover, .btn-blender.active { transform: translate(-32px, 5px) rotate(2deg); }
 
 
 /* --- SÀN CONG & HIỆU ỨNG TIA SÁNG CHẠY --- */
 .dl-floor-wrapper {
     position: absolute;
-    bottom: -15px; left: 0;
+    bottom: 25px; left: -20px;
     width: 100%; 
     z-index: 5;
     pointer-events: none;
 }
 .dl-floor-wrapper svg { width: 100%; height: auto; display: block; }
 
+/* Hiệu ứng phát sáng neon tĩnh, không giật giật hay chạy nữa */
 .floor-light {
-    stroke-dasharray: 200 4000; 
-    stroke-dashoffset: 4000;
-    animation: lightShoot 6s cubic-bezier(0.25, 1, 0.5, 1) infinite;
+    filter: drop-shadow(0 0 15px #00d2ff); /* Tăng độ tỏa sáng lên một chút cho đẹp */
+    opacity: 1; /* Trả lại 100% màu gốc, không làm đục màu nữa */
+    mix-blend-mode: overlay; /* ĐÂY CHÍNH LÀ PHÉP THUẬT BẠN CẦN! */
 }
-@keyframes lightShoot {
-    0% { stroke-dashoffset: 4000; }
+
+/* Vòng lặp đốm sáng trượt vĩnh viễn từ trái sang phải */
+@keyframes runFloorComet {
+    0% { stroke-dashoffset: 1000; }
     100% { stroke-dashoffset: 0; }
 }
 
@@ -247,17 +247,36 @@
     opacity: 0;
     transform: translate(-50%, -65%) scale(0.9) !important;
 }
-/* Hiệu ứng đốm sáng chạy quanh path */
-#led-stroke {
-    stroke-dasharray: 60 1500; /* 60 là độ dài đốm sáng, 1500 là tổng chu vi path */
-    animation: dashLoop 5s linear infinite;
-    filter: drop-shadow(0 0 5px #FFFFFF);
-}
+
 #led-stroke-track{
     opacity: 0.2;
 }
-@keyframes dashLoop {
-    0% { stroke-dashoffset: 2000; }
+/* =========================================
+   HIỆU ỨNG ĐỐM SÁNG (FLARE) CHẠY QUANH VIỀN
+   ========================================= */
+
+/* 1. Đường ray mờ làm nền */
+#led-stroke-track {
+    opacity: 0.2;
+}
+
+/* 2. Đốm sáng (Hạt năng lượng) */
+#led-stroke {
+    /* Tạo 1 đốm siêu ngắn (0.1) trên tổng chu vi 100. Đảm bảo chỉ có duy nhất 1 đốm xuất hiện */
+    stroke-dasharray: 0.5 100;
+    
+    /* Gắn 4 lớp bóng đổ (Drop Shadow) xếp chồng lên nhau để tạo hiệu ứng Flare chói lóa */
+    filter: drop-shadow(0 0 2px #ffffff) 
+            drop-shadow(0 0 8px #00d2ff) 
+            drop-shadow(0 0 15px #00d2ff) 
+            drop-shadow(0 0 30px #00d2ff);
+            
+    animation: flareLoop 10s linear infinite; /* Chạy liên tục 6 giây / 1 vòng */
+}
+
+/* 3. Vòng lặp chạy trơn tru 100% không vấp */
+@keyframes flareLoop {
+    0% { stroke-dashoffset: 100; }
     100% { stroke-dashoffset: 0; }
 }
 /* --- TRANG TRÍ SIDE PANEL CỐ ĐỊNH --- */
