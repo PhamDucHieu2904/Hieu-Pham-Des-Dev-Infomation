@@ -333,20 +333,52 @@
 /* 3. DỌN DẸP SÂN KHẤU: Ẩn Side Screen và Nút Desktop */
 .is-mobile-device .left-panel,
 .is-mobile-device .right-panel,
-.is-mobile-device .fixed-side-decor,
 .is-mobile-device .desktop-nav {
     display: none !important;
 }
-
-/* 4. LẬT DỌC MAIN SCREEN */
-.is-mobile-device .center-panel {
-    width: 1581px; 
-    height: 2850px; 
-    margin-top: 950px;
+/* =========================================
+   DECOR 2 BÊN HÔNG MÀN HÌNH (MOBILE)
+   ========================================= */
+.is-mobile-device .fixed-side-decor {
+    display: block !important;  /* Lệnh này gọi 2 dải decor hiện hình trở lại */
+    position: absolute;
+    top: auto;                  /* Xóa bỏ tọa độ top của Desktop */
+    bottom: -740px;              /* Đẩy từ đáy lên để nằm ngay trên cái bảng trắng */
+    height: 400px;              /* Kích thước dải vạch (Bạn có thể tăng giảm tùy ý) */
+    margin-top: 0;
+    z-index: 50;                /* Nổi lên trên nền vũ trụ */
+    pointer-events: none;       /* Cho phép ngón tay vuốt xuyên qua nó để xoay 3D */
 }
-.is-mobile-device .center-panel svg {
+
+/* Áp sát mép trái */
+.is-mobile-device .left-fixed {
+    left: -270px; 
+    transform: none; 
+}
+
+/* Áp sát mép phải và lật đối xứng lại (Mirror) */
+.is-mobile-device .right-fixed {
+    right: -270px;
+    left: auto;
+    transform: scaleX(-1); 
+}
+
+/* 4. LẬT DỌC MAIN SCREEN (CÁCH CHUẨN) */
+.is-mobile-device .center-panel {
+    /* Lấy đúng kích thước thực tế bạn muốn, nhưng ĐẢO NGƯỢC tỷ lệ */
+    width: 1568px;  /* Sẽ trở thành chiều cao khi xoay */
+    height: 870px;  /* Sẽ trở thành chiều ngang khi xoay */
+    
+    /* Phép thuật: Xoay CẢ CÁI KHUNG thay vì xoay ruột SVG */
     transform: rotate(90deg); 
-    transform-origin: center center;
+    
+    /* Tạm biệt những con số margin khổng lồ */
+    margin-top: 800px; 
+}
+
+.is-mobile-device .center-panel svg {
+    /* Trả SVG về nguyên bản, tự động giãn vừa khít 100% cái khung 1431x794 */
+    transform: none; 
 }
 
 /* =========================================
@@ -432,7 +464,7 @@
 .is-mobile-device .dl-top-title {
     width: 487px; 
     height: 95px; 
-    margin-top: 0px; /* Đẩy xuống một chút cho khỏi dính nóc */
+    margin-top: -10px; /* Đẩy xuống một chút cho khỏi dính nóc */
 }
 
 /* Chỉnh lại size chữ cho vừa vặn với cái khung SVG mới */
