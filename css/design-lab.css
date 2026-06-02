@@ -507,3 +507,18 @@
 .dl-scene.is-dragging .dl-software-slide {
     opacity: 0.8 !important; 
 }
+/* =========================================
+   TỐI ƯU HÓA FPS (HARDWARE ACCELERATION)
+   ========================================= */
+/* 1. Kích hoạt GPU (Graphic Card) cho điện thoại */
+.is-mobile-device .dl-scene,
+.is-mobile-device .dl-cylinder,
+.is-mobile-device .dl-software-slide {
+    will-change: transform; 
+}
+
+/* 2. Tiếp nhận biến CSS từ Javascript (Nhanh hơn hàng chục lần so với gán style trực tiếp) */
+.is-mobile-device .dl-software-slide {
+    /* Góc quay (--slide-angle) cố định, Bán kính (--current-radius) trôi theo thời gian thực */
+    transform: rotateY(var(--slide-angle)) translateZ(var(--current-radius, 1600px)) !important;
+}

@@ -101,25 +101,26 @@ document.addEventListener('DOMContentLoaded', function() {
             return; 
         }
 
-        // Lerp Góc xoay
         currentAngle += (targetAngle - currentAngle) * 0.12; 
-        
-        // Lerp Bán kính (Thu hẹp/Mở rộng độ giãn của các tấm thẻ)
         currentRadius += (targetRadius - currentRadius) * 0.12; 
         
-        // 1. Dịch Camera tiến/lùi theo bán kính hiện tại
+        // 1. Xoay Camera
         cylinder.style.transform = `translateZ(-${currentRadius}px) rotateY(${currentAngle}deg)`;
 
-        // 2. Ép tất cả 9 tấm thẻ lùi sát vào trục quay hoặc giãn ra xa
-        allMobileSlides.forEach((slide, index) => {
-            slide.style.transform = `rotateY(${index * 40}deg) translateZ(${currentRadius}px)`;
-        });
+        // 2. BÍ QUYẾT TỐI ƯU: Chỉ cập nhật 1 biến CSS duy nhất vào khối trụ cha. 
+        // Trình duyệt sẽ dùng C++ tự động giãn 9 tấm thẻ con bên trong mà JS không cần đụng tới nữa!
+        cylinder.style.setProperty('--current-radius', `${currentRadius}px`);
 
         requestAnimationFrame(mobileUpdateLoop);
     }
 
     function setupMobileCylinder() {
         if (document.body.classList.contains('is-mobile-device')) {
+            // Thay vì ép transform từng frame, ta chỉ "cắm cọc" góc xoay 1 lần duy nhất lúc khởi tạo
+            allMobileSlides.forEach((slide, index) => {
+                slide.style.setProperty('--slide-angle', `${index * 40}deg`);
+            });
+            
             if (!isMobileLoopRunning) {
                 isMobileLoopRunning = true;
                 mobileUpdateLoop();
