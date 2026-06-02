@@ -79,6 +79,31 @@ document.addEventListener('DOMContentLoaded', function() {
     const desktopBtns = document.querySelectorAll('.desktop-nav .dl-btn');
     const mobileBtns = document.querySelectorAll('.mobile-nav .dl-btn-mobile');
 
+    const techBtns = document.querySelectorAll('.tech-btn');
+    const designLabNavBtn = document.querySelector('.nav-btn[href="#design-lab"]');
+    techBtns.forEach((btn, index) => {
+        // Chỉ xử lý 3 nút đầu tiên: Photoshop (0), Illustrator (1), Blender (2)
+        if (index <= 2) { 
+            btn.addEventListener('click', function(e) {
+                e.preventDefault(); // Chặn hành vi nhảy trang mặc định của thẻ <a>
+
+                // Bước 1: Chuyển trang sang Design Lab
+                if (designLabNavBtn) designLabNavBtn.click();
+
+                // Bước 2: Đợi 50ms để trang Design Lab hiển thị lên, sau đó xoay màn hình 3D
+                setTimeout(() => {
+                    if (document.body.classList.contains('is-mobile-device')) {
+                        // Nếu là Mobile: Kích hoạt nút dưới đáy. 
+                        // (Hàm này đã được lập trình sẵn công thức nhảy tới thẻ số 2 của group!)
+                        if (mobileBtns[index]) mobileBtns[index].click();
+                    } else {
+                        // Nếu là Desktop: Kích hoạt nút ở thanh bên trái.
+                        if (desktopBtns[index]) desktopBtns[index].click();
+                    }
+                }, 50);
+            });
+        }
+    });
     if (!cylinder || !titleText || !scene) return;
 
     // --- 1. SETUP LOGIC MOBILE (KIẾN TRÚC UNITY LERP) ---
