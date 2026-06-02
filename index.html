@@ -166,7 +166,21 @@
                     <stop offset="65%" stop-color="#001532" />
                     <stop offset="100%" stop-color="#001532" />
                 </linearGradient>
+
+                <linearGradient id="led-sweep-mobile" x1="-1" y1="0" x2="0" y2="0">
+                    <animate attributeName="x1" values="-1; 1; 1" keyTimes="0; 0.9; 1" dur="3s" repeatCount="indefinite" />
+                    <animate attributeName="x2" values="0; 2; 2" keyTimes="0; 0.9; 1" dur="3s" repeatCount="indefinite" />
+                    
+                    <stop offset="0%" stop-color="#001532" />
+                    <stop offset="35%" stop-color="#001532" />
+                    <stop offset="45%" stop-color="#00d2ff" />
+                    <stop offset="50%" stop-color="#ffffff" />
+                    <stop offset="55%" stop-color="#00d2ff" />
+                    <stop offset="65%" stop-color="#001532" />
+                    <stop offset="100%" stop-color="#001532" />
+                </linearGradient>
             </defs>
+            
             <symbol id="shape-button" viewBox="1449.1 329.5 268 50">
                 <path fill="var(--btn-bg-color, #e6e6e6)" stroke="var(--btn-stroke-color, transparent)" stroke-width="2" d="M1698.7,377.7c-77-1-154.1-1-231.1,0c-4-3.9-6.3-6-10.4-9.9c-0.2-10.5-0.2-15.8-0.4-26.3c3.9-4,6.2-6.2,10.1-10.2c77.5-1,154.9-1,232.4,0c4,4,6.2,6.2,10.1,10.2c-0.2,10.5-0.2,15.8-0.4,26.3C1705,371.7,1702.7,373.8,1698.7,377.7z"/>
             </symbol>
@@ -195,6 +209,19 @@
                 <path fill="#FFFFFF" d="M2122,882H11.7c302-97,664.9-153.6,1055.2-153.6S1820,785,2122,882z"/>
                 <path class="floor-light" fill="none" stroke="#FFFFFF" stroke-width="10" d="M11.7,902l-6.1-39c314.6-101.1,681.6-154.6,1061.2-154.6s746.6,53.4,1061.3,154.5l-6.1,39"/>
             </symbol>
+
+            <symbol id="shape-mobile-floor" viewBox="0 0 1080 260.58">
+                <path fill="#ffffff" d="M1080,8.31V260.58H0V8.31H367.92L377.39,0H702.72l1,.85,8.47,7.47H1080Z"/>
+                <polyline fill="none" stroke="#061832" stroke-miterlimit="10" stroke-width="5" points="0 16.81 376.42 16.81 385.89 8.5 694.22 8.5 703.67 16.82 1080 16.82"/>
+                <path fill="#1e1c2d" d="M507.49,55.52H481.66V29.7h25.83Zm-23.16-2.67h20.49V32.37H484.33Z"/>
+                <path fill="#1e1c2d" d="M537.78,55.52H512V29.7h25.83Zm-23.16-2.67H535.1V32.37H514.62Z"/>
+                <path fill="#1e1c2d" d="M568.06,55.52H542.23V29.7h25.83ZM544.9,52.85h20.49V32.37H544.9Z"/>
+                <path fill="#1e1c2d" d="M598.34,55.52H572.51V29.7h25.83Zm-23.16-2.67h20.49V32.37H575.18Z"/>
+            </symbol>
+
+            <symbol id="shape-mobile-title" viewBox="0 0 487.18 94.93">
+                <path fill="#001532" stroke="#ffffff" stroke-width="2" d="M486.24,18.57V68.65L468.61,86.28H401.4L392.63,94h-298l-8.76-7.7H18.57L1,68.65V18.57L18.57,1h450Z"/>
+            </symbol>
         </svg>
 
         <section id="design-lab" class="design-lab-section page-section" style="display: none;">
@@ -204,38 +231,55 @@
                 <img src="assets/Asset 19.svg" class="fixed-side-decor left-fixed" alt="Decor">
                 <img src="assets/Asset 19.svg" class="fixed-side-decor right-fixed" alt="Decor">
                 <div class="dl-top-title">
-                    <svg><use href="#shape-title"></use></svg>
+                    <svg class="title-svg-desktop"><use href="#shape-title"></use></svg>
+                    <svg class="title-svg-mobile"><use href="#shape-mobile-title"></use></svg>
+                    
                     <h2>PHOTOSHOP</h2>
                 </div>
 
                 <div class="dl-scene" id="main-scene">
                     <div class="dl-cylinder" id="software-cylinder">
-                        <div class="dl-software-slide slide-ps active-slide">
-                        <div class="dl-panel left-panel">
-                            <svg><use href="#shape-sidescreen"></use></svg>
-                        </div>
-                        <div class="dl-panel center-panel"><svg><use href="#shape-mainscreen"></use></svg></div>
-                        <div class="dl-panel right-panel">
-                            <svg><use href="#shape-sidescreen"></use></svg>
-                        </div>
-                    </div>
-
-                        <div class="dl-software-slide slide-ai">
+                        
+                        <div class="dl-software-slide slide-ps slide-desktop active-slide">
                             <div class="dl-panel left-panel"><svg><use href="#shape-sidescreen"></use></svg></div>
                             <div class="dl-panel center-panel"><svg><use href="#shape-mainscreen"></use></svg></div>
                             <div class="dl-panel right-panel"><svg><use href="#shape-sidescreen"></use></svg></div>
                         </div>
+                        <div class="dl-software-slide slide-ps slide-mobile-only">
+                            <div class="dl-panel center-panel"><svg><use href="#shape-mainscreen"></use></svg></div>
+                        </div>
+                        <div class="dl-software-slide slide-ps slide-mobile-only">
+                            <div class="dl-panel center-panel"><svg><use href="#shape-mainscreen"></use></svg></div>
+                        </div>
 
-                        <div class="dl-software-slide slide-blender">
+                        <div class="dl-software-slide slide-ai slide-desktop">
                             <div class="dl-panel left-panel"><svg><use href="#shape-sidescreen"></use></svg></div>
                             <div class="dl-panel center-panel"><svg><use href="#shape-mainscreen"></use></svg></div>
                             <div class="dl-panel right-panel"><svg><use href="#shape-sidescreen"></use></svg></div>
+                        </div>
+                        <div class="dl-software-slide slide-ai slide-mobile-only">
+                            <div class="dl-panel center-panel"><svg><use href="#shape-mainscreen"></use></svg></div>
+                        </div>
+                        <div class="dl-software-slide slide-ai slide-mobile-only">
+                            <div class="dl-panel center-panel"><svg><use href="#shape-mainscreen"></use></svg></div>
+                        </div>
+
+                        <div class="dl-software-slide slide-blender slide-desktop">
+                            <div class="dl-panel left-panel"><svg><use href="#shape-sidescreen"></use></svg></div>
+                            <div class="dl-panel center-panel"><svg><use href="#shape-mainscreen"></use></svg></div>
+                            <div class="dl-panel right-panel"><svg><use href="#shape-sidescreen"></use></svg></div>
+                        </div>
+                        <div class="dl-software-slide slide-blender slide-mobile-only">
+                            <div class="dl-panel center-panel"><svg><use href="#shape-mainscreen"></use></svg></div>
+                        </div>
+                        <div class="dl-software-slide slide-blender slide-mobile-only">
+                            <div class="dl-panel center-panel"><svg><use href="#shape-mainscreen"></use></svg></div>
                         </div>
 
                     </div>
                 </div>
 
-                <div class="dl-nav-buttons">
+                <div class="dl-nav-buttons desktop-nav">
                     <div class="dl-btn btn-ps active">
                         <svg><use href="#shape-button"></use></svg>
                         <span>PHOTOSHOP</span>
@@ -250,7 +294,29 @@
                     </div>
                 </div>
             </div>
-
+            <div class="mobile-bottom-panel">
+                    <div class="mobile-panel-svg">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="1080" height="260.58" viewBox="0 0 1080 260.58">
+                            <defs><style>.cls-1{fill:#fff;}.cls-2{fill:none;stroke:#061832;stroke-miterlimit:10;stroke-width:5px;}.cls-3{fill:#1e1c2d;}</style></defs>
+                            <g id="Layer_2" data-name="Layer 2">
+                                <g id="Layer_1-2" data-name="Layer 1">
+                                    <path class="cls-1" d="M1080,8.31V260.58H0V8.31H367.92L377.39,0H702.72l1,.85,8.47,7.47H1080Z"/>
+                                    <polyline class="cls-2" points="0 16.81 376.42 16.81 385.89 8.5 694.22 8.5 703.67 16.82 1080 16.82"/>
+                                    <path class="cls-3" d="M507.49,55.52H481.66V29.7h25.83Zm-23.16-2.67h20.49V32.37H484.33Z"/>
+                                    <path class="cls-3" d="M537.78,55.52H512V29.7h25.83Zm-23.16-2.67H535.1V32.37H514.62Z"/>
+                                    <path class="cls-3" d="M568.06,55.52H542.23V29.7h25.83ZM544.9,52.85h20.49V32.37H544.9Z"/>
+                                    <path class="cls-3" d="M598.34,55.52H572.51V29.7h25.83Zm-23.16-2.67h20.49V32.37H575.18Z"/>
+                                </g>
+                            </g>
+                        </svg>
+                    </div>
+                    
+                    <div class="dl-nav-buttons mobile-nav">
+                        <div class="dl-btn-mobile active"><span>PHOTOSHOP</span></div>
+                        <div class="dl-btn-mobile"><span>ILLUSTRATOR</span></div>
+                        <div class="dl-btn-mobile"><span>BLENDER</span></div>
+                    </div>
+                </div>
             <div class="dl-floor-wrapper">
                 <svg><use href="#shape-floor"></use></svg>
             </div>
