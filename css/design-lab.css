@@ -3,6 +3,12 @@
    ========================================================================= */
 
 /* --- 1. MAIN WRAPPER & BACKGROUND --- */
+@font-face {
+    font-family: 'Galantic';
+    src: url('../assets/fonts/GALANTIC-OGZXP.OTF') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
 .design-lab-section {
     position: relative;
     width: 1920px;
@@ -162,6 +168,186 @@
 .dl-scene.is-rotating .right-panel {
     opacity: 0 !important;
     transition: opacity 0.1s ease; 
+}
+
+/* =========================================
+   SHOWCASE MODAL (BẢNG TRƯNG BÀY SẢN PHẨM)
+   ========================================= */
+.showcase-modal {
+    position: absolute;
+    top: 55%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 1714px; height: 760px;
+    z-index: 100; /* Nổi đè lên toàn bộ khu vực 3D */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    opacity: 0; 
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.showcase-modal.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+.showcase-close-btn {
+    position: absolute;
+    top: -5px; 
+    right: -15px; /* Đặt ở góc trên bên phải của Panel */
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 20;
+    transition: transform 0.2s ease;
+}
+.showcase-close-btn:hover {
+    transform: scale(1.2);
+}
+.showcase-close-btn:hover svg {
+    stroke: #00d2ff;
+}
+.showcase-content {
+    position: relative;
+    width: 100%; height: 100%;
+}
+
+.showcase-bg {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    display: block;
+}
+
+/* Định vị Title trùng với cái Tab nghiêng của SVG */
+.showcase-header {
+    position: absolute;
+    top: 30px; 
+    left: 360px; 
+}
+.showcase-title {
+    font-family: 'Galantic', sans-serif;
+    color: #ffffff;
+    font-size: 46px; 
+    margin: 0;
+    letter-spacing: 2px;
+
+    /* === THÊM 3 DÒNG NÀY ĐỂ ÉP FONT MẢNH NHƯ AI === */
+    font-weight: normal; /* Tắt tính năng tự động bôi đậm (Faux Bold) của thẻ h3 */
+    -webkit-font-smoothing: antialiased; /* Ép Chrome/Safari khử răng cưa mượt, không làm rực viền */
+    -moz-osx-font-smoothing: grayscale;  /* Tương tự cho Firefox trên Mac */
+}
+
+/* =========================================
+   SHOWCASE GALLERY & CUSTOM SLIDER
+   ========================================= */
+/* Layout chứa data trượt */
+.showcase-gallery {
+    position: absolute;
+    top: 130px; 
+    left: 50px; right: 50px;
+    bottom: 95px; /* Nhường chỗ phần đáy cho slider */
+    overflow: hidden; /* Cắt giấu phần data dài bị tràn ra ngoài khung */
+}
+
+.gallery-content {
+    display: flex;
+    height: 100%;
+    gap: 4px;
+    /* Độ mượt của hình ảnh khi trượt (0.1s cho độ trễ nhẹ rất đã mắt) */
+    transition: transform 0.1s ease-out; 
+    will-change: transform;
+}
+.gallery-item {
+    height: 100%;
+    aspect-ratio: 1 / 1; /* Phép thuật: Tự động scale chiều ngang bằng chiều cao để ra hình vuông */
+    border: 2px solid #061832; /* Stroke 2px mỏng vừa đủ */
+    background-color: rgba(255, 255, 255, 0.05); /* Nền mờ ảo để dễ nhìn */
+    flex-shrink: 0; /* Cấm bị bóp méo khi màn hình chật */
+    
+    /* Canh giữa con số bên trong */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #061832;
+    font-size: 32px;
+    font-weight: bold;
+    font-family: Arial, sans-serif;
+}
+
+/* CUSTOM SLIDER SCI-FI */
+.showcase-slider-wrap {
+    position: absolute;
+    bottom: 30px; 
+    left: 33%;
+    width: 290px; /* Chiều dài thanh trượt */
+    height: 25px; /* Khu vực bắt click chuột (to hơn thanh track một chút cho dễ bấm) */
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    z-index: 10;
+    
+    /* Biến cục bộ, JS sẽ update biến này từ 0% đến 100% */
+    --progress: 0%; 
+}
+
+.slider-track {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 11px;
+    background-color: #d1d3d4;
+    /* Cắt vát góc bên phải của thanh track */
+    clip-path: polygon(0 0, 100% 0, calc(100% - 12px) 100%, 0 100%);
+}
+
+.slider-progress {
+    position: absolute;
+    left: 0;
+    width: var(--progress);
+    height: 11px;
+    background-color: #001532;
+}
+
+.slider-thumb {
+    position: absolute;
+    left: var(--progress);
+    top: 50%;
+    /* Bẻ nghiêng góc 45 độ */
+    transform: translate(-50%, -50%) skewX(-45deg);
+    width: 21px;  /* Chiều ngang chính xác của handle */
+    height: 25px; /* Chiều cao chính xác của handle */
+    background-color: #001532;
+    /* Tạo khoảng trống ảo giác cắt ngang thanh slider */
+    border-left: 2px solid #ffffff;
+    border-right: 2px solid #ffffff;
+    cursor: grab;
+}
+
+.slider-thumb:active {
+    cursor: grabbing;
+}
+
+/* Dòng text dưới đáy */
+.showcase-footer {
+    position: absolute;
+    bottom: 30px;
+    left: 60px;
+}
+.showcase-footer p {
+    color: #061832;
+    font-family: Arial, Helvetica, sans-serif; /* Đổi font tùy ý bạn */
+    font-size: 22px;
+    margin: 0;
+}
+
+/* --- SUPPORT LẬT BẢNG KHI Ở MOBILE --- */
+.is-mobile-device .showcase-modal {
+    transform: translate(-50%, -50%) rotate(90deg);
 }
 
 /* --- 5. DESKTOP NAVIGATION BUTTONS --- */
@@ -398,3 +584,79 @@
 
 .dl-btn-mobile.active { background-color: #001532; }
 .dl-btn-mobile.active span { color: #ffffff; }
+/* =========================================
+   SHOWCASE PANEL - GIAO DIỆN MOBILE
+   ========================================= */
+/* 1. Tráo đổi Hình nền SVG */
+.bg-mobile { display: none; }
+.is-mobile-device .bg-mobile { display: block; }
+.is-mobile-device .bg-desktop { display: none; }
+
+/* 2. Ép kích thước chuẩn theo SVG Mobile & Gỡ bỏ lệnh lật xoay Desktop */
+.is-mobile-device .showcase-modal {
+    width: 863px;
+    height: 1431px;
+    transform: translate(-50%, -50%); /* Không được có rotate(90deg) ở đây */
+    margin-top: 335px;
+}
+
+/* 3. Ẩn Slider ngang & Dòng text Footer vì Mobile không cần đến */
+.is-mobile-device .showcase-slider-wrap,
+.is-mobile-device .showcase-footer {
+    display: none !important;
+}
+
+/* 4. Lật dọc chữ Title và neo vào cột màu xanh đậm bên trái */
+.is-mobile-device .showcase-header {
+    top: 300px;
+    left: 115px; /* Neo đúng vào tâm của cột xanh (bề ngang 138px) */
+    transform: translateX(-50%) rotate(-90deg);
+    
+}
+.is-mobile-device .showcase-title {
+    font-size: 73px; /* Phóng to một chút cho hoành tráng */
+    color: #001532 !important;
+}
+
+/* 5. Định vị lại nút Tắt X (Phóng to lên xíu để ngón tay dễ bấm) */
+.is-mobile-device .showcase-close-btn {
+    top: -30x;
+    right: -30px;
+    width: 70px; 
+    height: 70px;
+}
+.is-mobile-device .showcase-close-btn svg {
+    width: 70px;
+    height: 70px;
+}
+
+/* 6. BÍ QUYẾT: Biến Gallery thành dạng dọc và bật Native Scroll vuốt cực mượt */
+.is-mobile-device .showcase-gallery {
+    top: 83px;
+    left: 180px;  /* Né cột xanh bên trái ra */
+    right: 50px;
+    bottom: 65px;
+    
+    overflow-y: auto; /* BẬT TÍNH NĂNG VUỐT DỌC */
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch; /* Kích hoạt quán tính vuốt trên iOS */
+}
+
+/* Giấu thanh cuộn mặc định xấu xí của trình duyệt đi */
+.is-mobile-device .showcase-gallery::-webkit-scrollbar {
+    display: none;
+}
+
+/* Ép các ô sản phẩm xếp chồng lên nhau thành cột dọc */
+.is-mobile-device .gallery-content {
+    flex-direction: column; 
+    gap: 10px;
+    height: auto;
+    transform: none !important; /* Gỡ bỏ hoàn toàn lệnh trượt ngang của Javascript */
+}
+
+.is-mobile-device .gallery-item {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1; /* Vẫn giữ form vuông hoàn hảo */
+}

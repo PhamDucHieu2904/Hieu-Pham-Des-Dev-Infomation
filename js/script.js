@@ -178,7 +178,7 @@ document.addEventListener('DOMContentLoaded', function() {
         updateTitle(groupName);
     }
 
-    // --- SỰ KIỆN KÉO THẢ (DRAG & SNAP) ---
+// --- SỰ KIỆN KÉO THẢ (DRAG & SNAP) ---
     let isDragging = false;
     let hasMoved = false;
     let startX = 0;
@@ -186,6 +186,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     scene.addEventListener('touchstart', e => {
         if(!document.body.classList.contains('is-mobile-device')) return;
+        
+        // === KHÓA TƯƠNG TÁC: Nếu Panel đang mở thì cấm vuốt màn hình ===
+        const showcaseModal = document.getElementById('showcase-modal');
+        if (showcaseModal && showcaseModal.classList.contains('active')) return;
+
         isDragging = true;
         hasMoved = false;
         startX = e.touches[0].clientX;
@@ -197,6 +202,10 @@ document.addEventListener('DOMContentLoaded', function() {
     scene.addEventListener('touchmove', e => {
         if(!isDragging || !document.body.classList.contains('is-mobile-device')) return;
         
+        // === KHÓA TƯƠNG TÁC: Nếu Panel đang mở thì cấm vuốt màn hình ===
+        const showcaseModal = document.getElementById('showcase-modal');
+        if (showcaseModal && showcaseModal.classList.contains('active')) return;
+
         let deltaX = e.touches[0].clientX - startX;
 
         if (!hasMoved) {
@@ -291,4 +300,126 @@ document.addEventListener('DOMContentLoaded', function() {
             cylinder.style.transform = `translateZ(-1200px) rotateY(${currentDesktopIndex * -120}deg)`;
         }
     });
+    // =========================================
+    // LOGIC THANH TRƯỢT (SLIDER) SHOWCASE
+    // =========================================
+    const sliderWrap = document.getElementById('showcase-slider');
+    const sliderThumb = document.getElementById('slider-thumb');
+    const showcaseGallery = document.getElementById('showcase-gallery');
+    const galleryContent = document.getElementById('gallery-content');
+
+    if(sliderWrap && sliderThumb && showcaseGallery && galleryContent) {
+        
+        // --- 1. TẠO 30 Ô VUÔNG DATA GIẢ ĐỂ TEST ---
+        galleryContent.innerHTML = ''; // Xóa sạch ruột
+        for (let i = 1; i <= 30; i++) {
+            const item = document.createElement('div');
+            item.className = 'gallery-item';
+            item.innerText = i; // Đánh số từ 1 đến 30 để bạn dễ nhìn quá trình trượt
+            galleryContent.appendChild(item);
+        }
+
+        // --- 2. HỆ THỐNG TÍNH TOÁN TRƯỢT ---
+        let scrollProgress = 0; 
+        let isSliderDragging = false;
+
+        function updateSlider(progress) {
+            if(document.body.classList.contains('is-mobile-device')) return;
+            scrollProgress = Math.max(0, Math.min(1, progress));
+            sliderWrap.style.setProperty('--progress', `${scrollProgress * 100}%`);
+            
+            const maxScroll = galleryContent.scrollWidth - showcaseGallery.clientWidth;
+            if(maxScroll > 0) {
+                galleryContent.style.transform = `translateX(-${scrollProgress * maxScroll}px)`;
+            }
+        }
+
+        // --- 3. KÉO THẢ BẰNG CHUỘT ---
+        sliderThumb.addEventListener('mousedown', () => {
+            isSliderDragging = true;
+            document.body.style.userSelect = 'none'; 
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!isSliderDragging) return;
+            const rect = sliderWrap.getBoundingClientRect();
+            let x = e.clientX - rect.left;
+            updateSlider(x / rect.width);
+        });
+
+        document.addEventListener('mouseup', () => {
+            isSliderDragging = false;
+            document.body.style.userSelect = '';
+        });
+
+        // Hỗ trợ Touch Mobile
+        sliderThumb.addEventListener('touchstart', () => { isSliderDragging = true; }, {passive: true});
+        document.addEventListener('touchmove', (e) => {
+            if (!isSliderDragging) return;
+            const rect = sliderWrap.getBoundingClientRect();
+            let x = e.touches[0].clientX - rect.left;
+            updateSlider(x / rect.width);
+        }, {passive: true});
+        document.addEventListener('touchend', () => { isSliderDragging = false; });
+
+        // --- 4. LĂN CHUỘT TRÊN MÀN HÌNH ---
+        showcaseGallery.addEventListener('wheel', (e) => {
+            if(document.body.classList.contains('is-mobile-device')) return;
+            const maxScroll = galleryContent.scrollWidth - showcaseGallery.clientWidth;
+            if(maxScroll > 0) {
+                e.preventDefault(); 
+                let delta = e.deltaY > 0 ? 0.05 : -0.05; 
+                updateSlider(scrollProgress + delta);
+            }
+        }, { passive: false });
+
+        // --- 5. ĐIỀU HƯỚNG BẰNG PHÍM MŨI TÊN (MỚI) ---
+        document.addEventListener('keydown', (e) => {
+            if(document.body.classList.contains('is-mobile-device')) return;
+            // Chỉ kích hoạt phím mũi tên khi cái Panel này đang được bật sáng
+            const showcaseModal = document.getElementById('showcase-modal');
+            if (!showcaseModal.classList.contains('active')) return;
+
+            const maxScroll = galleryContent.scrollWidth - showcaseGallery.clientWidth;
+            if(maxScroll <= 0) return;
+
+            // Mỗi lần bấm mũi tên sẽ trượt khoảng 5% thanh slider (Bạn có thể tăng/giảm số 0.05 này)
+            if (e.key === 'ArrowRight') {
+                updateSlider(scrollProgress + 0.05);
+            } else if (e.key === 'ArrowLeft') {
+                updateSlider(scrollProgress - 0.05);
+            }
+        });
+    }
+    // =========================================
+    // ĐIỀU KHIỂN BẬT/TẮT SHOWCASE PANEL
+    // =========================================
+    const showcaseModal = document.getElementById('showcase-modal');
+    const closeShowcaseBtn = document.getElementById('close-showcase-btn');
+    
+    // Lấy TẤT CẢ các tấm màn hình (Cả center, left, right của Desktop lẫn Mobile)
+    const allScreens = document.querySelectorAll('.dl-panel'); 
+
+    if(showcaseModal && closeShowcaseBtn) {
+        
+        // 1. MỞ PANEL KHI CLICK VÀO MÀN HÌNH BẤT KỲ
+        allScreens.forEach(screen => {
+            screen.addEventListener('click', () => {
+                showcaseModal.classList.add('active');
+            });
+        });
+
+        // 2. TẮT PANEL KHI BẤM NÚT "X"
+        closeShowcaseBtn.addEventListener('click', () => {
+            showcaseModal.classList.remove('active');
+        });
+
+        // 3. TẮT PANEL KHI ẤN PHÍM "ESC" TRÊN BÀN PHÍM
+        document.addEventListener('keydown', (e) => {
+            // Nếu phím ấn là Escape VÀ panel đang mở
+            if (e.key === 'Escape' && showcaseModal.classList.contains('active')) {
+                showcaseModal.classList.remove('active');
+            }
+        });
+    }
 });
