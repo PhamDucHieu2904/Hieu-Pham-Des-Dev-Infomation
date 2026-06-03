@@ -70,91 +70,80 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /* =========================================
-   DESIGN LAB - TOÀN BỘ LOGIC
+   DESIGN LAB - 3D CYLINDER ROTATION (DESKTOP & MOBILE)
    ========================================= */
 document.addEventListener('DOMContentLoaded', function() {
-    
-    // --- KHAI BÁO BIẾN TOÀN CỤC (CHỐNG NGHẼN BỘ NHỚ) ---
     const cylinder = document.getElementById('software-cylinder');
     const titleText = document.querySelector('.dl-top-title h2');
     const scene = document.getElementById('main-scene');
     const desktopBtns = document.querySelectorAll('.desktop-nav .dl-btn');
     const mobileBtns = document.querySelectorAll('.mobile-nav .dl-btn-mobile');
+
     const techBtns = document.querySelectorAll('.tech-btn');
     const designLabNavBtn = document.querySelector('.nav-btn[href="#design-lab"]');
-    
-    // Biến cho Panel Showcase
-    const showcaseModal = document.getElementById('showcase-modal');
-    const closeShowcaseBtn = document.getElementById('close-showcase-btn');
-    const allScreens = document.querySelectorAll('.dl-panel');
-
-    // Chuyển trang từ Main Desk sang Design Lab
     techBtns.forEach((btn, index) => {
+        // Chỉ xử lý 3 nút đầu tiên: Photoshop (0), Illustrator (1), Blender (2)
         if (index <= 2) { 
             btn.addEventListener('click', function(e) {
-                e.preventDefault(); 
+                e.preventDefault(); // Chặn hành vi nhảy trang mặc định của thẻ <a>
+
+                // Bước 1: Chuyển trang sang Design Lab
                 if (designLabNavBtn) designLabNavBtn.click();
+
+                // Bước 2: Đợi 50ms để trang Design Lab hiển thị lên, sau đó xoay màn hình 3D
                 setTimeout(() => {
                     if (document.body.classList.contains('is-mobile-device')) {
+                        // Nếu là Mobile: Kích hoạt nút dưới đáy. 
+                        // (Hàm này đã được lập trình sẵn công thức nhảy tới thẻ số 2 của group!)
                         if (mobileBtns[index]) mobileBtns[index].click();
                     } else {
+                        // Nếu là Desktop: Kích hoạt nút ở thanh bên trái.
                         if (desktopBtns[index]) desktopBtns[index].click();
                     }
                 }, 50);
             });
         }
     });
-
     if (!cylinder || !titleText || !scene) return;
 
-    // --- 1. SETUP LOGIC MOBILE (KIẾN TRÚC UNITY LERP ĐÃ TỐI ƯU GPU) ---
+    // --- 1. SETUP LOGIC MOBILE (KIẾN TRÚC UNITY LERP) ---
     const allMobileSlides = document.querySelectorAll('.dl-software-slide');
     let currentMobileIndex = 1;
 
-    let currentAngle = -40; 
-    let targetAngle = -40;  
+    // CÁC BIẾN CHO UNITY UPDATE LOOP
+    let currentAngle = -40; // Góc thực tế
+    let targetAngle = -40;  // Góc đích muốn đến
     
-    let currentRadius = 1600; 
-    let targetRadius = 1600;  
+    let currentRadius = 1600; // Bán kính thực tế
+    let targetRadius = 1600;  // Bán kính đích (Khi vuốt sẽ thu nhỏ lại)
     
     let isMobileLoopRunning = false;
 
-    // VÒNG LẶP UPDATE (60fps TỐI ƯU)
+    // VÒNG LẶP UPDATE (Chạy liên tục 60fps)
     function mobileUpdateLoop() {
         if (!document.body.classList.contains('is-mobile-device')) {
             isMobileLoopRunning = false;
             return; 
         }
 
-        let angleDiff = targetAngle - currentAngle;
-        let radiusDiff = targetRadius - currentRadius;
+        currentAngle += (targetAngle - currentAngle) * 0.12; 
+        currentRadius += (targetRadius - currentRadius) * 0.12; 
+        
+        // 1. Xoay Camera
+        cylinder.style.transform = `translateZ(-${currentRadius}px) rotateY(${currentAngle}deg)`;
 
-        // BÍ QUYẾT TỐI ƯU: Chỉ tính toán và đụng vào DOM nếu khối trụ đang thực sự dịch chuyển
-        if (Math.abs(angleDiff) > 0.01 || Math.abs(radiusDiff) > 0.5) {
-            currentAngle += angleDiff * 0.12; 
-            currentRadius += radiusDiff * 0.12; 
-            
-            // Xoay Camera cha
-            cylinder.style.transform = `translateZ(-${currentRadius}px) rotateY(${currentAngle}deg)`;
-
-            // Đẩy trực tiếp lệnh Transform xuống GPU cho 9 màn hình con (Bỏ qua CSS Variables)
-            allMobileSlides.forEach((slide, index) => {
-                slide.style.transform = `rotateY(${index * 40}deg) translateZ(${currentRadius}px)`;
-            });
-        } else {
-            // Khi xoay đến nơi, khóa chết thông số để CPU nghỉ ngơi
-            currentAngle = targetAngle;
-            currentRadius = targetRadius;
-        }
+        // 2. BÍ QUYẾT TỐI ƯU: Chỉ cập nhật 1 biến CSS duy nhất vào khối trụ cha. 
+        // Trình duyệt sẽ dùng C++ tự động giãn 9 tấm thẻ con bên trong mà JS không cần đụng tới nữa!
+        cylinder.style.setProperty('--current-radius', `${currentRadius}px`);
 
         requestAnimationFrame(mobileUpdateLoop);
     }
 
     function setupMobileCylinder() {
         if (document.body.classList.contains('is-mobile-device')) {
-            // Khởi tạo vị trí ngay lập tức chống giật khung hình đầu tiên
+            // Thay vì ép transform từng frame, ta chỉ "cắm cọc" góc xoay 1 lần duy nhất lúc khởi tạo
             allMobileSlides.forEach((slide, index) => {
-                slide.style.transform = `rotateY(${index * 40}deg) translateZ(${currentRadius}px)`;
+                slide.style.setProperty('--slide-angle', `${index * 40}deg`);
             });
             
             if (!isMobileLoopRunning) {
@@ -172,7 +161,7 @@ document.addEventListener('DOMContentLoaded', function() {
         currentMobileIndex = index;
 
         targetAngle = index * -40;
-        targetRadius = 1600; 
+        targetRadius = 1600; // Đảm bảo luôn bung giãn màn hình khi nhả tay ra
 
         allMobileSlides.forEach(slide => slide.classList.remove('active-slide'));
         if(allMobileSlides[index]) allMobileSlides[index].classList.add('active-slide');
@@ -189,7 +178,7 @@ document.addEventListener('DOMContentLoaded', function() {
         updateTitle(groupName);
     }
 
-    // --- SỰ KIỆN KÉO THẢ (DRAG & SNAP) ---
+// --- SỰ KIỆN KÉO THẢ (DRAG & SNAP) ---
     let isDragging = false;
     let hasMoved = false;
     let startX = 0;
@@ -198,7 +187,8 @@ document.addEventListener('DOMContentLoaded', function() {
     scene.addEventListener('touchstart', e => {
         if(!document.body.classList.contains('is-mobile-device')) return;
         
-        // Khóa vuốt 3D khi đang mở Panel (Lấy biến cache toàn cục)
+        // === KHÓA TƯƠNG TÁC: Nếu Panel đang mở thì cấm vuốt màn hình ===
+        const showcaseModal = document.getElementById('showcase-modal');
         if (showcaseModal && showcaseModal.classList.contains('active')) return;
 
         isDragging = true;
@@ -212,6 +202,8 @@ document.addEventListener('DOMContentLoaded', function() {
     scene.addEventListener('touchmove', e => {
         if(!isDragging || !document.body.classList.contains('is-mobile-device')) return;
         
+        // === KHÓA TƯƠNG TÁC: Nếu Panel đang mở thì cấm vuốt màn hình ===
+        const showcaseModal = document.getElementById('showcase-modal');
         if (showcaseModal && showcaseModal.classList.contains('active')) return;
 
         let deltaX = e.touches[0].clientX - startX;
@@ -220,6 +212,8 @@ document.addEventListener('DOMContentLoaded', function() {
             if (Math.abs(deltaX) > 10) {
                 hasMoved = true;
                 scene.classList.add('is-dragging'); 
+                
+                // KHI XÁC NHẬN ĐANG KÉO: ÉP BÁN KÍNH NHỎ LẠI (Túm các thẻ lại với nhau)
                 targetRadius = 1100; 
             } else {
                 return;
@@ -234,10 +228,10 @@ document.addEventListener('DOMContentLoaded', function() {
         if(!isDragging || !document.body.classList.contains('is-mobile-device')) return;
         isDragging = false;
         
-        if (!hasMoved) return; 
+        if (!hasMoved) return; // Nếu là Click thì bỏ qua bước Snap
 
         scene.classList.remove('is-dragging');
-        targetRadius = 1600; 
+        targetRadius = 1600; // Khi nhả tay ra -> Bung giãn các thẻ về vị trí cũ
         
         let deltaX = e.changedTouches[0].clientX - startX;
         let nearestIndex = Math.round(targetAngle / -40);
@@ -306,7 +300,6 @@ document.addEventListener('DOMContentLoaded', function() {
             cylinder.style.transform = `translateZ(-1200px) rotateY(${currentDesktopIndex * -120}deg)`;
         }
     });
-
     // =========================================
     // LOGIC THANH TRƯỢT (SLIDER) SHOWCASE
     // =========================================
@@ -317,14 +310,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if(sliderWrap && sliderThumb && showcaseGallery && galleryContent) {
         
-        galleryContent.innerHTML = ''; 
+        // --- 1. TẠO 30 Ô VUÔNG DATA GIẢ ĐỂ TEST ---
+        galleryContent.innerHTML = ''; // Xóa sạch ruột
         for (let i = 1; i <= 30; i++) {
             const item = document.createElement('div');
             item.className = 'gallery-item';
-            item.innerText = i; 
+            item.innerText = i; // Đánh số từ 1 đến 30 để bạn dễ nhìn quá trình trượt
             galleryContent.appendChild(item);
         }
 
+        // --- 2. HỆ THỐNG TÍNH TOÁN TRƯỢT ---
         let scrollProgress = 0; 
         let isSliderDragging = false;
 
@@ -339,6 +334,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
 
+        // --- 3. KÉO THẢ BẰNG CHUỘT ---
         sliderThumb.addEventListener('mousedown', () => {
             isSliderDragging = true;
             document.body.style.userSelect = 'none'; 
@@ -356,6 +352,7 @@ document.addEventListener('DOMContentLoaded', function() {
             document.body.style.userSelect = '';
         });
 
+        // Hỗ trợ Touch Mobile
         sliderThumb.addEventListener('touchstart', () => { isSliderDragging = true; }, {passive: true});
         document.addEventListener('touchmove', (e) => {
             if (!isSliderDragging) return;
@@ -365,6 +362,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }, {passive: true});
         document.addEventListener('touchend', () => { isSliderDragging = false; });
 
+        // --- 4. LĂN CHUỘT TRÊN MÀN HÌNH ---
         showcaseGallery.addEventListener('wheel', (e) => {
             if(document.body.classList.contains('is-mobile-device')) return;
             const maxScroll = galleryContent.scrollWidth - showcaseGallery.clientWidth;
@@ -375,13 +373,17 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }, { passive: false });
 
+        // --- 5. ĐIỀU HƯỚNG BẰNG PHÍM MŨI TÊN (MỚI) ---
         document.addEventListener('keydown', (e) => {
             if(document.body.classList.contains('is-mobile-device')) return;
-            if (!showcaseModal || !showcaseModal.classList.contains('active')) return;
+            // Chỉ kích hoạt phím mũi tên khi cái Panel này đang được bật sáng
+            const showcaseModal = document.getElementById('showcase-modal');
+            if (!showcaseModal.classList.contains('active')) return;
 
             const maxScroll = galleryContent.scrollWidth - showcaseGallery.clientWidth;
             if(maxScroll <= 0) return;
 
+            // Mỗi lần bấm mũi tên sẽ trượt khoảng 5% thanh slider (Bạn có thể tăng/giảm số 0.05 này)
             if (e.key === 'ArrowRight') {
                 updateSlider(scrollProgress + 0.05);
             } else if (e.key === 'ArrowLeft') {
@@ -389,23 +391,32 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-
     // =========================================
     // ĐIỀU KHIỂN BẬT/TẮT SHOWCASE PANEL
     // =========================================
+    const showcaseModal = document.getElementById('showcase-modal');
+    const closeShowcaseBtn = document.getElementById('close-showcase-btn');
+    
+    // Lấy TẤT CẢ các tấm màn hình (Cả center, left, right của Desktop lẫn Mobile)
+    const allScreens = document.querySelectorAll('.dl-panel'); 
+
     if(showcaseModal && closeShowcaseBtn) {
         
+        // 1. MỞ PANEL KHI CLICK VÀO MÀN HÌNH BẤT KỲ
         allScreens.forEach(screen => {
             screen.addEventListener('click', () => {
                 showcaseModal.classList.add('active');
             });
         });
 
+        // 2. TẮT PANEL KHI BẤM NÚT "X"
         closeShowcaseBtn.addEventListener('click', () => {
             showcaseModal.classList.remove('active');
         });
 
+        // 3. TẮT PANEL KHI ẤN PHÍM "ESC" TRÊN BÀN PHÍM
         document.addEventListener('keydown', (e) => {
+            // Nếu phím ấn là Escape VÀ panel đang mở
             if (e.key === 'Escape' && showcaseModal.classList.contains('active')) {
                 showcaseModal.classList.remove('active');
             }
