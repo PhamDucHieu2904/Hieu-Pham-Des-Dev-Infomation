@@ -534,9 +534,6 @@
     transition: none !important; 
 }
 
-.is-mobile-device .dl-software-slide {
-    transform: rotateY(var(--slide-angle)) translateZ(var(--current-radius, 1600px)) !important;
-}
 
 /* Kéo thả thu nhỏ Camera */
 .dl-scene.is-dragging { transform: scale(0.85); }
