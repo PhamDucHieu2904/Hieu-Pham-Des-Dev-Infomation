@@ -1,0 +1,23 @@
+{
+    "ps-left": {
+        "title": "2D MOCK UP",
+        "desc": "Realistic mock up file cooking by photoshop.",
+        "images": [
+            "assets/images/ps_mock_up_1.webp", 
+            "assets/images/ps_mock_up_2.webp", 
+            "assets/images/ps_mock_up_3.webp"
+        ]
+    },
+    "ps-center": {
+        "title": "PHOTO MANIPULATION",
+        "desc": "Creative retouching and surreal visual effects.",
+        "images": [
+        ]
+    },
+    "ps-right": {
+        "title": "DIGITAL PAINTING",
+        "desc": "Hand-drawn digital illustrations and concept arts.",
+        "images": [
+        ]
+    }
+}

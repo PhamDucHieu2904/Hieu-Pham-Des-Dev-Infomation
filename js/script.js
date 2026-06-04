@@ -391,32 +391,77 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-    // =========================================
-    // ĐIỀU KHIỂN BẬT/TẮT SHOWCASE PANEL
+// =========================================
+    // ĐIỀU KHIỂN BẬT/TẮT SHOWCASE PANEL & DATA
     // =========================================
     const showcaseModal = document.getElementById('showcase-modal');
     const closeShowcaseBtn = document.getElementById('close-showcase-btn');
-    
-    // Lấy TẤT CẢ các tấm màn hình (Cả center, left, right của Desktop lẫn Mobile)
     const allScreens = document.querySelectorAll('.dl-panel'); 
 
     if(showcaseModal && closeShowcaseBtn) {
         
-        // 1. MỞ PANEL KHI CLICK VÀO MÀN HÌNH BẤT KỲ
+        // 1. TẠO KHO TRỐNG VÀ TẢI DỮ LIỆU TỪ FILE JSON
+        let showcaseData = {};
+        
+        // Trình duyệt sẽ tự động chạy ngầm đi lấy file JSON về ngay khi load trang
+        fetch('data/showcase.json')
+            .then(response => response.json())
+            .then(data => {
+                showcaseData = data; // Nạp dữ liệu vào kho
+                console.log("Database Loaded:", showcaseData);
+            })
+            .catch(error => {
+                console.error("Lỗi khi tải Database JSON:", error);
+            });
+
+        // 2. MỞ PANEL & ĐỔ DỮ LIỆU KHI CLICK
         allScreens.forEach(screen => {
             screen.addEventListener('click', () => {
+                const targetId = screen.getAttribute('data-target');
+                
+                // Nếu chưa load xong data hoặc chưa cấu hình ID thì bỏ qua
+                if (!targetId || !showcaseData[targetId]) return; 
+
+                const data = showcaseData[targetId];
+
+                // A. Đổ Text vào Title và Footer
+                const titleEl = document.querySelector('.showcase-title');
+                const footerEl = document.querySelector('.showcase-footer p');
+                if(titleEl) titleEl.innerText = data.title;
+                if(footerEl) footerEl.innerText = data.desc;
+
+                // B. Dọn dẹp Slider cũ và bơm Ảnh mới vào (Kèm tính năng Lazy Load)
+                galleryContent.innerHTML = ''; 
+                data.images.forEach(src => {
+                    const img = document.createElement('img');
+                    img.src = src;
+                    img.loading = 'lazy'; // Kích hoạt tải lười cho nhẹ web
+                    img.onerror = function() { this.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAMLCwgAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=='; };
+                    img.className = 'gallery-item';
+                    galleryContent.appendChild(img);
+                });
+
+                // C. Reset vị trí cuộn về mức 0 
+                if (document.body.classList.contains('is-mobile-device')) {
+                    showcaseGallery.scrollTop = 0; 
+                } else {
+                    scrollProgress = 0; 
+                    if (sliderWrap) sliderWrap.style.setProperty('--progress', `0%`);
+                    galleryContent.style.transform = `translateX(0px)`;
+                }
+
+                // D. Bật Panel lên
                 showcaseModal.classList.add('active');
             });
         });
 
-        // 2. TẮT PANEL KHI BẤM NÚT "X"
+        // 3. TẮT PANEL KHI BẤM NÚT "X"
         closeShowcaseBtn.addEventListener('click', () => {
             showcaseModal.classList.remove('active');
         });
 
-        // 3. TẮT PANEL KHI ẤN PHÍM "ESC" TRÊN BÀN PHÍM
+        // 4. TẮT PANEL KHI ẤN PHÍM "ESC"
         document.addEventListener('keydown', (e) => {
-            // Nếu phím ấn là Escape VÀ panel đang mở
             if (e.key === 'Escape' && showcaseModal.classList.contains('active')) {
                 showcaseModal.classList.remove('active');
             }
