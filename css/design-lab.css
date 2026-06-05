@@ -246,15 +246,6 @@
     transform: translateX(-5%) rotateY(24deg) scaleX(-1.2) scaleY(1.07); 
 }
 
-/* Bức ảnh bên trong giờ được "thả rông" để giật lag */
-.fo-image {
-    width: 100%; height: 100%;
-    object-fit: cover;
-    opacity: 0.4; 
-    transition: opacity 0.4s ease;
-}
-.dl-panel.has-thumb:hover .fo-image { opacity: 1; }
-
 /* =========================================
    TRUE VHS CRT GLITCH EFFECT (CHUẨN VIDEO)
    ========================================= */
@@ -264,16 +255,6 @@
     width: 100%; height: 100%; 
     overflow: hidden; /* Cấm nhiễu tràn ra ngoài viền */
 }
-
-/* Lớp ảnh gốc */
-.fo-base { 
-    position: absolute; top: 0; left: 0;
-    width: 100%; height: 100%; 
-    object-fit: cover; 
-    opacity: 0.4; 
-    transition: opacity 0.3s; 
-}
-.dl-panel.has-thumb:hover .fo-base { opacity: 1; }
 
 /* 1. LỚP SỌC NGANG MÀN HÌNH CRT */
 .vhs-scanlines {
@@ -301,16 +282,6 @@
     pointer-events: none; z-index: 4;
     opacity: 0; /* Giấu đi */
 }
-
-/* 3. LỚP BÓNG MA ĐỎ & XANH CYAN (Xé khối) */
-.glitch-r, .glitch-c {
-    position: absolute; top: 0; left: 0;
-    width: 100%; height: 100%; object-fit: cover;
-    visibility: hidden; 
-    mix-blend-mode: screen; 
-    z-index: 2;
-}
-
 /* =========================================
    KÍCH HOẠT ANIMATION TỪ JAVASCRIPT
    ========================================= */
@@ -372,52 +343,39 @@
     opacity: 1 !important;
 }
 
-/* 2. MOBILE: Sửa lỗi mờ bằng cách dùng background-image thay vì thẻ <image> */
-.mob-thumb-container {
-    position: absolute;
-    top: 0; left: 0;
+/* =========================================
+   NÂNG CẤP ĐỘ NÉT 100% (DESKTOP & MOBILE)
+   ========================================= */
+/* 1. Lớp chứa ảnh dùng chung */
+.thumb-bg {
+    position: absolute; top: 0; left: 0;
     width: 100%; height: 100%;
-    z-index: 5;
-    pointer-events: none;
-    overflow: hidden;
-}
-
-.mob-thumb-img {
-    width: 100%;
-    height: 100%;
-    /* Bẻ thẳng ảnh và giữ nét tuyệt đối */
-    transform: rotate(-90deg) scale(1.3);
-    transform-origin: center center;
-    /* Dùng background-image thay vì thẻ image để trình duyệt không làm mờ */
-    background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
-    image-rendering: -webkit-optimize-contrast;
-}
-/* =========================================
-   MOBILE VHS CRT SETTINGS (BẢO TOÀN TỶ LỆ)
-   ========================================= */
-.fo-mobile {
-    width: 100%; height: 100%;
-    display: flex; justify-content: center; align-items: center;
+    background-size: contain; /* Giữ nguyên chuẩn vuông 1:1 */
+    /* BÍ QUYẾT: Ép GPU render, cấm trình duyệt bôi mờ pixel */
+    image-rendering: -webkit-optimize-contrast; 
+    image-rendering: crisp-edges;
+    transform: translateZ(0); 
 }
 
-.mob-glitch-wrapper {
-    width: 100%; height: 100%;
-    /* Bẻ ngược toàn bộ không gian chứa ảnh và nhiễu sóng cho đứng thẳng */
-    /* Scale 1.3 để giữ nguyên độ lớn chuẩn 1:1 mà bạn đã canh chỉnh */
-    transform: rotate(-90deg) scale(1.3);
-    transform-origin: center center;
+/* 2. Desktop: Phủ kín khung chữ nhật ngang & Xử lý độ sáng */
+.desk-thumb { 
+    background-size: cover; 
+    opacity: 0.4; 
+    transition: opacity 0.4s ease; 
 }
+.dl-panel.has-thumb:hover .desk-thumb.fo-base { opacity: 1; }
+.fo-center .desk-thumb.fo-base { opacity: 1 !important; } /* Màn hình giữa luôn sáng 100% */
 
-/* Ép ảnh Mobile dùng contain để bảo toàn form vuông 5000x5000 */
-.mob-fo-image {
-    object-fit: contain !important; 
-}
+/* 3. Mobile: Không dùng lệnh transform xoay ở đây nữa vì Javascript đã tự xoay rồi! */
+.mob-thumb { background-size: contain; }
 
-/* Đảm bảo ảnh gốc trên Mobile luôn sáng rực rỡ 100% */
-.mob-glitch-wrapper .fo-base {
-    opacity: 1 !important;
+/* 4. LỚP BÓNG MA ĐỎ & XANH CYAN (Xé khối) */
+.glitch-r, .glitch-c {
+    visibility: hidden; 
+    mix-blend-mode: screen; 
+    z-index: 2;
 }
 /* =========================================
    SHOWCASE MODAL (BẢNG TRƯNG BÀY SẢN PHẨM)
@@ -907,4 +865,25 @@
     width: 100%;
     height: auto;
     aspect-ratio: 1 / 1; /* Vẫn giữ form vuông hoàn hảo */
+}
+/* =========================================
+   NATIVE SVG MOBILE GLITCH (NÉT CĂNG ĐÉT)
+   ========================================= */
+.svg-base { opacity: 1; }
+.svg-glitch-r, .svg-glitch-c {
+    visibility: hidden;
+    mix-blend-mode: screen;
+}
+
+/* Kích hoạt animation khi có class .is-glitching */
+.mob-vhs-wrap.is-glitching .svg-base { animation: vhsFlicker 0.4s linear both; }
+.mob-vhs-wrap.is-glitching .svg-glitch-r {
+    visibility: visible;
+    animation: vhsTearRed 0.4s steps(2, end) both;
+    filter: drop-shadow(8px 0 0 red);
+}
+.mob-vhs-wrap.is-glitching .svg-glitch-c {
+    visibility: visible;
+    animation: vhsTearCyan 0.4s steps(2, end) both;
+    filter: drop-shadow(-8px 0 0 cyan);
 }

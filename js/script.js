@@ -408,6 +408,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(data => {
                 showcaseData = data; 
                 
+                // === A. VÒNG LẶP ĐỔ ẢNH LÊN MÀN HÌNH 3D ===
                 allScreens.forEach((panel, index) => {
                     const targetId = panel.getAttribute('data-target');
                     if (!targetId || !showcaseData[targetId]) return;
@@ -418,83 +419,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     let currentIndex = Math.floor(Math.random() * images.length);
                     const randomImg = images[currentIndex];
 
-                    // ==========================================
-                    // 1. PHÂN LUỒNG MOBILE: BẬT HIỆU ỨNG VHS CRT
-                    // ==========================================
-                    const isMobilePanel = panel.closest('.slide-mobile-only');
-                    if (isMobilePanel) {
-                        // Dọn dẹp các lớp layer cũ
-                        const oldTemp = panel.querySelector('.mobile-temp-img');
-                        if(oldTemp) oldTemp.remove();
-                        const oldMobLayer = panel.querySelector('.mobile-img-layer');
-                        if(oldMobLayer) oldMobLayer.remove();
-
-                        let viewBox = '480 30 965 580';
-                        let vb = viewBox.split(' ');
-                        let clipPathD = 'M1368.6,556.1c-74.2-4-150.5-6.9-226.8-8.7l-8.7-8.3H793.7l-8.7,8.3c-76.3,1.8-152.6,4.7-226.8,8.7c-4.9-0.7-9.6-2.6-13.6-5.5c-8.2-5.9-13.1-15.4-13.1-25.5V438l12.2-13.9V213.5l-12.2-13.9v-87.1c0-9.1,3.9-17.7,10.8-23.7c4.7-4,10.3-6.6,16.4-7.4c74.2,4,150.7,6.9,227.3,8.7l10,7.8l1.4,1.1H849c37.7,0.5,76.2,0.7,114.5,0.7s76.8-0.2,114.5-0.7h51.5l2.3-1.8l9-7.1c76.7-1.8,153.1-4.7,227.3-8.7c6.1,0.8,11.7,3.4,16.4,7.4c6.9,6,10.8,14.6,10.8,23.7v88.4l-11.1,12.7v210.6l11.1,12.7v88.4c0,10.1-4.9,19.6-13.1,25.5C1378.2,553.5,1373.5,555.4,1368.6,556.1z';
-
-                        const imgSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-                        imgSvg.setAttribute('viewBox', viewBox);
-                        imgSvg.classList.add('mobile-img-layer');
-                        imgSvg.style.cssText = 'position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 5; pointer-events: none;';
-
-                        // Bơm Cấu trúc 3 Lớp Ảnh + Sọc Nhiễu TV vào Mobile
-                        imgSvg.innerHTML = `
-                            <defs><clipPath id="mob-clip-${targetId}"><path d="${clipPathD}" /></clipPath></defs>
-                            <g clip-path="url(#mob-clip-${targetId})">
-                                <path fill="#001532" d="${clipPathD}" />
-                                <foreignObject x="${vb[0]}" y="${vb[1]}" width="${vb[2]}" height="${vb[3]}">
-                                    <div xmlns="http://www.w3.org/1999/xhtml" class="fo-wrapper fo-mobile">
-                                        <div class="glitch-wrapper mob-glitch-wrapper">
-                                            <div class="fo-image-wrap">
-                                                <img src="${randomImg}" class="fo-base mob-fo-image" />
-                                                <img src="${randomImg}" class="glitch-r mob-fo-image" />
-                                                <img src="${randomImg}" class="glitch-c mob-fo-image" />
-                                                <div class="vhs-scanlines"></div>
-                                                <div class="vhs-tracking"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </foreignObject>
-                            </g>
-                        `;
-
-                        panel.appendChild(imgSvg);
-                        panel.style.setProperty('--screen-bg', 'transparent');
-                        panel.classList.add('has-thumb');
-
-                        // KÍCH HOẠT VÒNG LẶP ĐỔI ẢNH KÈM HIỆU ỨNG (5 GIÂY)
-                        if (images.length > 1) { 
-                            const imageWrap = imgSvg.querySelector('.fo-image-wrap');
-                            const allImgs = imgSvg.querySelectorAll('img'); 
-                            
-                            setTimeout(() => {
-                                setInterval(() => {
-                                    imageWrap.classList.add('is-glitching');
-
-                                    setTimeout(() => {
-                                        let nextIndex;
-                                        do { 
-                                            nextIndex = Math.floor(Math.random() * images.length);
-                                        } while (nextIndex === currentIndex);
-                                        
-                                        currentIndex = nextIndex;
-                                        allImgs.forEach(img => img.src = images[currentIndex]);
-                                    }, 160); 
-
-                                    setTimeout(() => {
-                                        imageWrap.classList.remove('is-glitching');
-                                    }, 400); 
-
-                                }, 5000); 
-                            }, index * 300); 
-                        }
-                        return; // Khóa chốt, không cho chạy xuống code Desktop bên dưới
-                    }
-
-                    // ==========================================
-                    // 2. KHU VỰC DÀNH RIÊNG CHO DESKTOP (TRUE VHS CRT)
-                    // ==========================================
                     const isSide = panel.classList.contains('left-panel') || panel.classList.contains('right-panel');
                     const isRight = panel.classList.contains('right-panel');
                     
@@ -507,25 +431,94 @@ document.addEventListener('DOMContentLoaded', function() {
 
                     const clipId = `clip-thumb-${targetId}-${index}`;
 
+                    // Dọn dẹp tàn dư cũ
                     const oldLayer = panel.querySelector('.panel-img-layer');
                     if(oldLayer) oldLayer.remove();
+                    const oldMobLayer = panel.querySelector('.mobile-img-layer');
+                    if(oldMobLayer) oldMobLayer.remove();
 
+                    // ==========================================
+                    // 1. PHÂN LUỒNG MOBILE (DÙNG NATIVE SVG CHỐNG MỜ 100%)
+                    // ==========================================
+                    const isMobilePanel = panel.closest('.slide-mobile-only');
+                    if (isMobilePanel) {
+                        const imgSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+                        imgSvg.setAttribute('viewBox', viewBox);
+                        imgSvg.classList.add('mobile-img-layer');
+                        imgSvg.style.cssText = 'position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 5; pointer-events: none;';
+
+                        // Tự động tính tâm xoay chuẩn xác của khung SVG
+                        let cx = parseFloat(vb[0]) + parseFloat(vb[2]) / 2;
+                        let cy = parseFloat(vb[1]) + parseFloat(vb[3]) / 2;
+
+                        imgSvg.innerHTML = `
+                            <defs><clipPath id="${clipId}"><path d="${clipPathD}" /></clipPath></defs>
+                            <g clip-path="url(#${clipId})">
+                                <path fill="#001532" d="${clipPathD}" />
+
+                                <g class="mob-vhs-wrap" style="transform-origin: ${cx}px ${cy}px; transform: rotate(-90deg) scale(1.5);">
+                                    <image href="${randomImg}" class="svg-base" x="${vb[0]}" y="${vb[1]}" width="${vb[2]}" height="${vb[3]}" preserveAspectRatio="xMidYMid meet" />
+                                    <image href="${randomImg}" class="svg-glitch-r" x="${vb[0]}" y="${vb[1]}" width="${vb[2]}" height="${vb[3]}" preserveAspectRatio="xMidYMid meet" />
+                                    <image href="${randomImg}" class="svg-glitch-c" x="${vb[0]}" y="${vb[1]}" width="${vb[2]}" height="${vb[3]}" preserveAspectRatio="xMidYMid meet" />
+                                </g>
+
+                                <foreignObject x="${vb[0]}" y="${vb[1]}" width="${vb[2]}" height="${vb[3]}">
+                                    <div xmlns="http://www.w3.org/1999/xhtml" class="mob-vhs-html" style="position: relative; width: 100%; height: 100%; transform: rotate(-90deg); transform-origin: center center;">
+                                        <div class="vhs-scanlines"></div>
+                                        <div class="vhs-tracking"></div>
+                                    </div>
+                                </foreignObject>
+                            </g>
+                        `;
+                        panel.appendChild(imgSvg);
+                        panel.style.setProperty('--screen-bg', 'transparent');
+                        panel.classList.add('has-thumb');
+
+                        if (images.length > 1) { 
+                            const svgWrap = imgSvg.querySelector('.mob-vhs-wrap');
+                            const htmlWrap = imgSvg.querySelector('.mob-vhs-html');
+                            const allImages = imgSvg.querySelectorAll('image'); 
+                            setTimeout(() => {
+                                setInterval(() => {
+                                    // Kích hoạt chớp nháy
+                                    if(svgWrap) svgWrap.classList.add('is-glitching');
+                                    if(htmlWrap) htmlWrap.classList.add('is-glitching');
+                                    setTimeout(() => {
+                                        // Đổi ảnh SVG
+                                        let nextIndex;
+                                        do { nextIndex = Math.floor(Math.random() * images.length); } while (nextIndex === currentIndex);
+                                        currentIndex = nextIndex;
+                                        allImages.forEach(img => img.setAttribute('href', images[currentIndex]));
+                                    }, 160); 
+                                    setTimeout(() => { 
+                                        if(svgWrap) svgWrap.classList.remove('is-glitching'); 
+                                        if(htmlWrap) htmlWrap.classList.remove('is-glitching'); 
+                                    }, 400); 
+                                }, 5000); 
+                            }, index * 300); 
+                        }
+                        return; // Ngắt luồng Mobile
+                    }
+
+                    // ==========================================
+                    // 2. PHÂN LUỒNG DESKTOP
+                    // ==========================================
                     const imgSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
                     imgSvg.setAttribute('viewBox', viewBox);
                     imgSvg.classList.add('panel-img-layer');
-                    
                     let foClass = isSide ? (isRight ? 'fo-right' : 'fo-left') : 'fo-center';
                     
-                    // ... bên trong phần tạo imgSvg.innerHTML cho Mobile
                     imgSvg.innerHTML = `
-                        <defs><clipPath id="mob-clip-${targetId}"><path d="${clipPathD}" /></clipPath></defs>
-                        <g clip-path="url(#mob-clip-${targetId})">
+                        <defs><clipPath id="${clipId}"><path d="${clipPathD}" /></clipPath></defs>
+                        <g clip-path="url(#${clipId})">
                             <path fill="#001532" d="${clipPathD}" />
                             <foreignObject x="${vb[0]}" y="${vb[1]}" width="${vb[2]}" height="${vb[3]}">
-                                <div xmlns="http://www.w3.org/1999/xhtml" class="fo-wrapper fo-mobile">
-                                    <div class="glitch-wrapper mob-glitch-wrapper">
+                                <div xmlns="http://www.w3.org/1999/xhtml" class="fo-wrapper ${foClass}">
+                                    <div class="glitch-wrapper">
                                         <div class="fo-image-wrap">
-                                            <div class="mob-thumb-img" style="background-image: url('${randomImg}')"></div>
+                                            <div class="thumb-bg desk-thumb fo-base" style="background-image: url('${randomImg}')"></div>
+                                            <div class="thumb-bg desk-thumb glitch-r" style="background-image: url('${randomImg}')"></div>
+                                            <div class="thumb-bg desk-thumb glitch-c" style="background-image: url('${randomImg}')"></div>
                                             <div class="vhs-scanlines"></div>
                                             <div class="vhs-tracking"></div>
                                         </div>
@@ -539,23 +532,57 @@ document.addEventListener('DOMContentLoaded', function() {
                     panel.style.setProperty('--screen-bg', 'transparent');
                     panel.classList.add('has-thumb');
 
-                    // VÒNG LẶP ĐỔI ẢNH (ĐÃ CHỈNH THÀNH 5 GIÂY)
                     if (images.length > 1) { 
                         const imageWrap = imgSvg.querySelector('.fo-image-wrap');
-                        const allImgs = imgSvg.querySelectorAll('img'); 
-                        
+                        const allDivs = imgSvg.querySelectorAll('.thumb-bg'); 
                         setTimeout(() => {
-                            let nextIndex;
-                            do { 
-                                nextIndex = Math.floor(Math.random() * images.length);
-                            } while (nextIndex === currentIndex);
-                            
-                            currentIndex = nextIndex;
-                            // Cập nhật background-image cho cả 3 lớp (base, glitch-r, glitch-c)
-                            const allGlitchDivs = imgSvg.querySelectorAll('.mob-thumb-img');
-                            allGlitchDivs.forEach(div => div.style.backgroundImage = `url('${images[currentIndex]}')`);
-                        }, 160);
+                            setInterval(() => {
+                                imageWrap.classList.add('is-glitching');
+                                setTimeout(() => {
+                                    let nextIndex;
+                                    do { nextIndex = Math.floor(Math.random() * images.length); } while (nextIndex === currentIndex);
+                                    currentIndex = nextIndex;
+                                    allDivs.forEach(div => div.style.backgroundImage = `url('${images[currentIndex]}')`);
+                                }, 160); 
+                                setTimeout(() => { imageWrap.classList.remove('is-glitching'); }, 400); 
+                            }, 5000); 
+                        }, index * 300); 
                     }
+                });
+
+                // === B. KHỞI TẠO CLICK MỞ BẢNG SHOWCASE (Sẽ hoạt động khi có data) ===
+                allScreens.forEach(screen => {
+                    screen.addEventListener('click', () => {
+                        const targetId = screen.getAttribute('data-target');
+                        if (!targetId || !showcaseData[targetId]) return; 
+
+                        const data = showcaseData[targetId];
+
+                        const titleEl = document.querySelector('.showcase-title');
+                        const footerEl = document.querySelector('.showcase-footer p');
+                        if(titleEl) titleEl.innerText = data.title;
+                        if(footerEl) footerEl.innerText = data.desc;
+
+                        galleryContent.innerHTML = ''; 
+                        data.images.forEach(src => {
+                            const img = document.createElement('img');
+                            img.src = src;
+                            img.loading = 'lazy'; 
+                            img.onerror = function() { this.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAMLCwgAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=='; };
+                            img.className = 'gallery-item';
+                            galleryContent.appendChild(img);
+                        });
+
+                        if (document.body.classList.contains('is-mobile-device')) {
+                            showcaseGallery.scrollTop = 0; 
+                        } else {
+                            scrollProgress = 0; 
+                            if (sliderWrap) sliderWrap.style.setProperty('--progress', `0%`);
+                            galleryContent.style.transform = `translateX(0px)`;
+                        }
+
+                        showcaseModal.classList.add('active');
+                    });
                 });
             })
             .catch(error => {
