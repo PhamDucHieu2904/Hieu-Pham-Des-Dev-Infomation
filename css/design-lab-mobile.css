@@ -1,0 +1,262 @@
+/* =========================================================================
+   DESIGN LAB - MOBILE NATIVE EDITION
+   ========================================================================= */
+
+@font-face {
+    font-family: 'Galantic';
+    src: url('../assets/fonts/GALANTIC-OGZXP.OTF') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* --- 1. MAIN WRAPPER (STANDALONE 100vh) --- */
+.design-lab-section {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    margin: 0 auto;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    --led-sweep-url: url(#led-sweep-mobile);
+}
+
+.dl-space-bg {
+    position: absolute;
+    width: 100vh;  
+    height: 100vh; 
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%) rotate(90deg); 
+    background-color: #050914; 
+    background-image: url('../assets/Galaxy-Background.webp'); 
+    background-size: cover; 
+    z-index: 1;
+    animation: galaxyScrollRight 40s linear infinite; 
+}
+
+@keyframes galaxyScrollRight {
+    0% { background-position: 0 0; }
+    100% { background-position: 1080px 0; }
+}
+
+.dl-container {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px; 
+}
+
+/* --- 2. TITLE & DECORS --- */
+.dl-top-title {
+    position: relative;
+    width: 487px; 
+    height: 95px; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: -10px; 
+    flex-shrink: 0; 
+}
+
+.dl-top-title svg { height: 100%; width: 100%; display: block; }
+.title-svg-desktop { display: none !important; }
+.title-svg-mobile { display: block !important; }
+
+.dl-top-title h2 {
+    position: absolute;
+    top: 50%; left: 50%; 
+    transform: translate(-50%, -50%);
+    margin: 0; 
+    line-height: 1; 
+    color: #ffffff; 
+    font-size: 38px; font-weight: 900; letter-spacing: 2px;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.title-glitch {
+    opacity: 0;
+    transform: translate(-50%, -65%) scale(0.9) !important;
+}
+
+.fixed-side-decor {
+    position: absolute;
+    height: 400px; 
+    width: auto;
+    z-index: 50; 
+    pointer-events: none; 
+    bottom: -740px; 
+}
+.left-fixed { left: -270px; }
+.right-fixed { right: -270px; transform: scaleX(-1); }
+
+/* --- 3. MOBILE GPU ACCELERATED CYLINDER --- */
+.dl-scene {
+    width: 100%;
+    height: 550px; 
+    perspective: 2000px; 
+    display: flex; justify-content: center; align-items: center;
+    margin-bottom: 40px;
+    will-change: transform; 
+}
+.dl-scene.is-dragging { transform: scale(0.85); }
+.dl-scene.is-dragging .dl-software-slide { opacity: 0.8 !important; }
+
+.dl-cylinder {
+    position: relative;
+    width: 100%; height: 100%;
+    transform-style: preserve-3d;
+    will-change: transform; 
+}
+
+.dl-software-slide {
+    position: absolute; top: 0; left: 0;
+    width: 100%; height: 100%;
+    display: flex; justify-content: center; align-items: center;
+    gap: 15px; opacity: 0.2; pointer-events: none; 
+    will-change: transform; 
+    transform: rotateY(var(--slide-angle)) translateZ(var(--current-radius, 1600px));
+}
+.dl-software-slide.active-slide { opacity: 1; pointer-events: auto; }
+
+/* --- 4. PANELS --- */
+.dl-panel {
+    position: relative; display: flex; justify-content: center; align-items: center; flex-shrink: 0;
+}
+.center-panel { 
+    width: 1568px;  
+    height: 870px;  
+    transform: rotate(90deg); 
+    margin-top: 800px; 
+    z-index: 5; 
+    margin-left: 5px;
+}
+.center-panel svg { height: 100%; width: 100%; display: block; overflow: visible;}
+.center-panel .main-led {
+    fill: url(#led-sweep-mobile); stroke: url(#led-sweep-mobile); stroke-width: 3px;
+}
+.dl-panel.has-thumb { --screen-bg: transparent; }
+
+/* --- 5. NATIVE SVG MOBILE GLITCH --- */
+.mobile-img-layer {
+    position: absolute; top: 0; left: 0; 
+    width: 100%; height: 100%; 
+    z-index: 5; pointer-events: none;
+}
+
+.svg-base { opacity: 1; }
+.svg-glitch-r, .svg-glitch-c { visibility: hidden; mix-blend-mode: screen; }
+
+.mob-vhs-wrap.is-glitching .svg-base { animation: vhsFlicker 0.4s linear both; }
+.mob-vhs-wrap.is-glitching .svg-glitch-r { visibility: visible; animation: vhsTearRed 0.4s steps(2, end) both; filter: drop-shadow(8px 0 0 red); }
+.mob-vhs-wrap.is-glitching .svg-glitch-c { visibility: visible; animation: vhsTearCyan 0.4s steps(2, end) both; filter: drop-shadow(-8px 0 0 cyan); }
+
+.vhs-scanlines {
+    position: absolute; top:0; left:0; width:100%; height:100%;
+    background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.3));
+    background-size: 100% 6px; pointer-events: none; z-index: 3; opacity: 0; transition: opacity 0.15s ease-in-out;
+}
+.is-glitching .vhs-scanlines { opacity: 0.8; }
+
+.vhs-tracking {
+    position: absolute; top:-100%; left:0; width:100%; height:20%;
+    background: rgba(255,255,255,0.1); box-shadow: 0 0 15px rgba(255,255,255,0.2);
+    pointer-events: none; z-index: 4; opacity: 0; 
+}
+.is-glitching .vhs-tracking { opacity: 1; animation: vhsRoll 0.4s linear infinite; }
+
+/* Keyframes Tách biệt hoàn toàn khỏi Desktop */
+@keyframes vhsFlicker {
+    0%, 100% { filter: brightness(1); }
+    20% { filter: brightness(2) contrast(150%); opacity: 0.8; }
+    40% { filter: brightness(0.2) grayscale(1); opacity: 0.1; } 
+    60% { filter: brightness(1.5) sepia(0.5); opacity: 0.9; }
+}
+@keyframes vhsRoll { 0% { top: -20%; } 100% { top: 120%; } }
+@keyframes vhsTearRed {
+    0% { clip-path: inset(20% 0 80% 0); transform: translateX(-5%); }
+    20% { clip-path: inset(60% 0 10% 0); transform: translateX(5%); }
+    40% { clip-path: inset(40% 0 50% 0); transform: translateX(-8%); }
+    60% { clip-path: inset(80% 0 5% 0); transform: translateX(10%); }
+    80% { clip-path: inset(10% 0 70% 0); transform: translateX(-3%); }
+    100% { clip-path: inset(0 0 0 0); transform: translateX(0); }
+}
+@keyframes vhsTearCyan {
+    0% { clip-path: inset(10% 0 60% 0); transform: translateX(5%); }
+    20% { clip-path: inset(30% 0 20% 0); transform: translateX(-5%); }
+    40% { clip-path: inset(70% 0 10% 0); transform: translateX(8%); }
+    60% { clip-path: inset(20% 0 50% 0); transform: translateX(-10%); }
+    80% { clip-path: inset(50% 0 30% 0); transform: translateX(3%); }
+    100% { clip-path: inset(0 0 0 0); transform: translateX(0); }
+}
+
+/* --- 6. MOBILE NAVIGATION BAR --- */
+.mobile-bottom-panel {
+    display: block; position: fixed;
+    bottom: 0; left: 0; width: 100%; z-index: 999;
+}
+.mobile-panel-svg svg { width: 100%; height: auto; display: block; }
+.mobile-nav {
+    display: flex; justify-content: center; gap: 18px; 
+    position: absolute; bottom: 90px; left: 0; width: 100%;
+}
+.dl-btn-mobile {
+    width: 330px; height: 86px; padding: 0;        
+    background-color: #D1D3D4;
+    clip-path: polygon(12px 0, calc(100% - 12px) 0, 100% 12px, 100% calc(100% - 12px), calc(100% - 12px) 100%, 12px 100%, 0 calc(100% - 12px), 0 12px);
+    display: flex; justify-content: center; align-items: center;
+    transition: all 0.3s ease; cursor: pointer;
+}
+.dl-btn-mobile span { color: #001532; font-weight: 900; font-size: 24px; }
+.dl-btn-mobile.active { background-color: #001532; }
+.dl-btn-mobile.active span { color: #ffffff; }
+
+/* --- 7. MOBILE SHOWCASE MODAL (NATIVE SCROLL) --- */
+.showcase-modal {
+    position: absolute; top: 55%; left: 50%;
+    width: 863px; height: 1431px;
+    transform: translate(-50%, -50%); 
+    margin-top: 335px; z-index: 100; 
+    display: flex; justify-content: center; align-items: center;
+    opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+}
+.showcase-modal.active { opacity: 1; pointer-events: auto; }
+
+.showcase-close-btn {
+    position: absolute; top: -30px; right: -30px;
+    width: 70px; height: 70px;
+    display: flex; justify-content: center; align-items: center;
+    cursor: pointer; z-index: 20; transition: transform 0.2s ease;
+}
+.showcase-close-btn:hover { transform: scale(1.1); }
+.showcase-close-btn svg { width: 70px; height: 70px; }
+
+.showcase-content { position: relative; width: 100%; height: 100%; }
+.showcase-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: block; }
+.bg-desktop { display: none; }
+
+.showcase-header {
+    position: absolute; top: 300px; left: 115px; 
+    transform: translateX(-50%) rotate(-90deg);
+}
+.showcase-title {
+    font-family: 'Galantic', sans-serif; color: #001532; font-size: 73px; 
+    margin: 0; letter-spacing: 2px; font-weight: normal; 
+    -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;  
+}
+
+.showcase-gallery {
+    position: absolute; top: 83px; left: 180px; right: 50px; bottom: 65px;
+    overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; 
+}
+.showcase-gallery::-webkit-scrollbar { display: none; }
+
+.gallery-content { display: flex; flex-direction: column; gap: 10px; height: auto; }
+.gallery-item {
+    width: 100%; height: auto; aspect-ratio: 1 / 1; 
+    background-color: rgba(255, 255, 255, 0.05); flex-shrink: 0; 
+    display: flex; justify-content: center; align-items: center;
+    color: #061832; font-size: 32px; font-weight: bold; font-family: Arial, sans-serif;
+}

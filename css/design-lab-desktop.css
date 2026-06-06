@@ -1,0 +1,399 @@
+/* =========================================================================
+   DESIGN LAB - DESKTOP EDITION (TRUE 3D & FOREIGN OBJECT)
+   ========================================================================= */
+
+@font-face {
+    font-family: 'Galantic';
+    src: url('../assets/fonts/GALANTIC-OGZXP.OTF') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* --- 1. MAIN WRAPPER & BACKGROUND --- */
+.design-lab-section {
+    position: relative;
+    width: 1920px;
+    height: 830px; 
+    margin: 0 auto;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; 
+}
+
+.dl-space-bg {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: #050914; 
+    background-image: url('../assets/Galaxy-Background.webp'); 
+    background-repeat: repeat; 
+    background-size: 100% auto; 
+    z-index: 1;
+    animation: galaxyScrollDown 40s linear infinite;
+}
+
+@keyframes galaxyScrollDown {
+    0% { background-position: 0 0; }
+    100% { background-position: 0 1080px; }
+}
+
+.dl-container {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-top: 50px; 
+}
+
+/* --- 2. TITLE FRAME --- */
+.dl-top-title {
+    position: relative;
+    width: 594px; 
+    height: 83px; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: -15px; 
+    flex-shrink: 0; 
+}
+
+.dl-top-title svg { height: 100%; width: 100%; display: block; }
+.title-svg-mobile { display: none !important; }
+
+.dl-top-title h2 {
+    position: absolute;
+    top: 50%; left: 50%; 
+    transform: translate(-50%, -50%);
+    margin: 0; 
+    line-height: 1; 
+    color: #ffffff; 
+    font-size: 28px; font-weight: 900; letter-spacing: 2px;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.title-glitch {
+    opacity: 0;
+    transform: translate(-50%, -65%) scale(0.9) !important;
+}
+
+/* --- 3. 3D CYLINDER CAROUSEL --- */
+.dl-scene {
+    width: 100%;
+    height: 550px; 
+    perspective: 2000px; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 40px;
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1); 
+}
+
+.dl-cylinder {
+    position: relative;
+    width: 100%; height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+    transform: translateZ(-1200px) rotateY(0deg); 
+}
+
+.dl-software-slide {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px; 
+    opacity: 0.2; 
+    transition: opacity 0.8s ease;
+    pointer-events: none; 
+}
+
+.dl-software-slide.active-slide {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.slide-ps { transform: rotateY(0deg) translateZ(1200px); }
+.slide-ai { transform: rotateY(120deg) translateZ(1200px); }
+.slide-blender { transform: rotateY(240deg) translateZ(1200px); }
+
+/* --- 4. PANELS (SCREENS) --- */
+.dl-panel {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.4s ease, filter 0.4s ease;
+    flex-shrink: 0;
+}
+.dl-panel > svg:not(.panel-img-layer) { position: relative; z-index: 2; pointer-events: none; }
+.dl-panel.has-thumb { --screen-bg: transparent; }
+
+.center-panel { 
+    height: 580px; 
+    width: 1045px; 
+    z-index: 5; 
+    margin-left: 5px;
+    margin-top: -55px;
+}
+.center-panel svg { height: 100%; width: 100%; display: block; overflow: visible;}
+.center-panel:hover { filter: drop-shadow(0 0 20px rgba(0, 210, 255, 0.5)); }
+
+.main-led {
+    fill: var(--led-sweep-url, url(#led-sweep));
+    stroke: var(--led-sweep-url, url(#led-sweep));
+    stroke-width: 3px;
+}
+
+.left-panel, .right-panel {
+    height: 760px; 
+    width: 513px;
+    opacity: 0.7;
+    margin-bottom: 75px; 
+    transition: opacity 0.5s ease, transform 0.4s ease; 
+}
+.left-panel { margin-right: -140px; }
+.right-panel { margin-left: -135px; }
+.left-panel svg, .right-panel svg { height: 100%; width: 100%; display: block; }
+.right-panel svg { transform: scaleX(-1); }
+
+.left-panel:hover, .right-panel:hover { opacity: 1; transform: translateY(-10px); }
+
+.dl-scene.is-rotating .left-panel,
+.dl-scene.is-rotating .right-panel {
+    opacity: 0 !important;
+    transition: opacity 0.1s ease; 
+}
+
+/* --- 5. TRUE 3D FOREIGN OBJECT --- */
+.panel-img-layer {
+    position: absolute; top: 0; left: 0; 
+    width: 100%; height: 100%; 
+    z-index: 1; pointer-events: none;
+}
+
+.fo-wrapper {
+    width: 100%; height: 100%;
+    display: flex; justify-content: center; align-items: center;
+    perspective: 710px; 
+}
+
+.glitch-wrapper {
+    display: block;
+    transform-style: preserve-3d;
+}
+
+.fo-center .glitch-wrapper { width: 70%; height: 80%; transform: translateY(-3%); }
+
+.fo-left .glitch-wrapper {
+    width: 120%; height: 90%;
+    transform-origin: left center;
+    transform: translateX(-5%) rotateY(24deg) scaleX(1.2) scaleY(1.07);
+}
+
+.fo-right .fo-wrapper { transform: scaleX(-1); }
+.fo-right .glitch-wrapper {
+    width: 120%; height: 90%;
+    transform-origin: left center;
+    transform: translateX(-5%) rotateY(24deg) scaleX(-1.2) scaleY(1.07); 
+}
+
+/* --- 6. ẢNH NÉT VÀ HIỆU ỨNG GLITCH (DESKTOP) --- */
+.thumb-bg {
+    position: absolute; top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain; 
+    image-rendering: -webkit-optimize-contrast; 
+    image-rendering: crisp-edges;
+    transform: translateZ(0); 
+}
+
+.desk-thumb { 
+    background-size: cover; 
+    opacity: 0.4; 
+    transition: opacity 0.4s ease; 
+}
+.dl-panel.has-thumb:hover .desk-thumb.fo-base { opacity: 1; }
+.fo-center .desk-thumb.fo-base { opacity: 1 !important; } 
+
+.glitch-r, .glitch-c {
+    visibility: hidden; 
+    mix-blend-mode: screen; 
+    z-index: 2;
+}
+
+.fo-image-wrap { 
+    position: relative; 
+    width: 100%; height: 100%; 
+    overflow: hidden; 
+}
+
+.vhs-scanlines {
+    position: absolute; top:0; left:0; width:100%; height:100%;
+    background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.3));
+    background-size: 100% 6px;
+    pointer-events: none; z-index: 3; 
+    opacity: 0; transition: opacity 0.15s ease-in-out;
+}
+.is-glitching .vhs-scanlines { opacity: 0.8; }
+
+.vhs-tracking {
+    position: absolute; top:-100%; left:0; width:100%; height:20%;
+    background: rgba(255,255,255,0.1); box-shadow: 0 0 15px rgba(255,255,255,0.2);
+    pointer-events: none; z-index: 4; opacity: 0; 
+}
+
+.is-glitching .fo-base { animation: vhsFlicker 0.4s linear both; }
+.is-glitching .vhs-tracking { opacity: 1; animation: vhsRoll 0.4s linear infinite; }
+.is-glitching .glitch-r { visibility: visible; animation: vhsTearRed 0.4s steps(2, end) both; filter: drop-shadow(8px 0 0 red); }
+.is-glitching .glitch-c { visibility: visible; animation: vhsTearCyan 0.4s steps(2, end) both; filter: drop-shadow(-8px 0 0 cyan); }
+
+@keyframes vhsFlicker {
+    0%, 100% { filter: brightness(1); }
+    20% { filter: brightness(2) contrast(150%); opacity: 0.8; }
+    40% { filter: brightness(0.2) grayscale(1); opacity: 0.1; } 
+    60% { filter: brightness(1.5) sepia(0.5); opacity: 0.9; }
+}
+@keyframes vhsRoll { 0% { top: -20%; } 100% { top: 120%; } }
+@keyframes vhsTearRed {
+    0% { clip-path: inset(20% 0 80% 0); transform: translateX(-5%); }
+    20% { clip-path: inset(60% 0 10% 0); transform: translateX(5%); }
+    40% { clip-path: inset(40% 0 50% 0); transform: translateX(-8%); }
+    60% { clip-path: inset(80% 0 5% 0); transform: translateX(10%); }
+    80% { clip-path: inset(10% 0 70% 0); transform: translateX(-3%); }
+    100% { clip-path: inset(0 0 0 0); transform: translateX(0); }
+}
+@keyframes vhsTearCyan {
+    0% { clip-path: inset(10% 0 60% 0); transform: translateX(5%); }
+    20% { clip-path: inset(30% 0 20% 0); transform: translateX(-5%); }
+    40% { clip-path: inset(70% 0 10% 0); transform: translateX(8%); }
+    60% { clip-path: inset(20% 0 50% 0); transform: translateX(-10%); }
+    80% { clip-path: inset(50% 0 30% 0); transform: translateX(3%); }
+    100% { clip-path: inset(0 0 0 0); transform: translateX(0); }
+}
+
+/* --- 7. SHOWCASE MODAL (DESKTOP) --- */
+.showcase-modal {
+    position: absolute;
+    top: 55%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 1714px; height: 760px;
+    z-index: 100; 
+    display: flex; justify-content: center; align-items: center;
+    opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+}
+.showcase-modal.active { opacity: 1; pointer-events: auto; }
+
+.showcase-close-btn {
+    position: absolute; top: -5px; right: -15px; 
+    width: 40px; height: 40px;
+    display: flex; justify-content: center; align-items: center;
+    cursor: pointer; z-index: 20; transition: transform 0.2s ease;
+}
+.showcase-close-btn:hover { transform: scale(1.2); }
+.showcase-close-btn:hover svg { stroke: #00d2ff; }
+
+.showcase-content { position: relative; width: 100%; height: 100%; }
+.showcase-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: block; }
+.bg-mobile { display: none; } /* Ẩn BG của Mobile đi */
+
+.showcase-header { position: absolute; top: 30px; left: 360px; }
+.showcase-title {
+    font-family: 'Galantic', sans-serif; color: #ffffff;
+    font-size: 46px; margin: 0; letter-spacing: 2px;
+    font-weight: normal; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+}
+
+.showcase-gallery {
+    position: absolute; top: 130px; left: 50px; right: 50px; bottom: 95px; 
+    overflow: hidden; 
+}
+.gallery-content {
+    display: flex; height: 100%; gap: 4px;
+    transition: transform 0.1s ease-out; will-change: transform;
+}
+.gallery-item {
+    height: 100%; aspect-ratio: 1 / 1; 
+    background-color: rgba(255, 255, 255, 0.05); flex-shrink: 0; 
+    display: flex; justify-content: center; align-items: center;
+    color: #061832; font-size: 32px; font-weight: bold; font-family: Arial, sans-serif;
+}
+
+.showcase-slider-wrap {
+    position: absolute; bottom: 30px; left: 33%;
+    width: 290px; height: 25px; 
+    display: flex; align-items: center; cursor: pointer; z-index: 10;
+    --progress: 0%; 
+}
+.slider-track {
+    position: absolute; left: 0; width: 100%; height: 11px;
+    background-color: #d1d3d4; clip-path: polygon(0 0, 100% 0, calc(100% - 12px) 100%, 0 100%);
+}
+.slider-progress {
+    position: absolute; left: 0; width: var(--progress); height: 11px; background-color: #001532;
+}
+.slider-thumb {
+    position: absolute; left: var(--progress); top: 50%;
+    transform: translate(-50%, -50%) skewX(-45deg);
+    width: 21px; height: 25px; background-color: #001532;
+    border-left: 2px solid #ffffff; border-right: 2px solid #ffffff; cursor: grab;
+}
+.slider-thumb:active { cursor: grabbing; }
+
+.showcase-footer { position: absolute; bottom: 30px; left: 60px; }
+.showcase-footer p { color: #061832; font-family: Arial, Helvetica, sans-serif; font-size: 22px; margin: 0; }
+
+/* --- 8. DESKTOP NAVIGATION BUTTONS --- */
+.dl-nav-buttons { display: flex; gap: 30px; z-index: 10; margin-top: -95px; }
+
+.dl-btn {
+    position: relative;
+    --btn-bg-color: #D1D3D4; --btn-stroke-color: transparent;
+    height: 50px; width: 268px; 
+    display: flex; justify-content: center; align-items: center;
+    cursor: pointer; transition: transform 0.3s ease; flex-shrink: 0;
+}
+.dl-btn svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: block; z-index: -1; }
+.dl-btn span { position: relative; color: #001532; font-weight: 900; font-size: 17px; transition: color 0.3s; margin-top: -2px; }
+
+.btn-ps { transform: translate(35px, 5px) rotate(-2deg); }
+.btn-ai { transform: translate(0, 0) rotate(0deg); }
+.btn-blender { transform: translate(-32px, 5px) rotate(2deg); }
+
+.dl-btn:hover, .dl-btn.active { --btn-bg-color: #001532; --btn-stroke-color: #ffffff; }
+.dl-btn:hover span, .dl-btn.active span { color: #ffffff; }
+.btn-ps:hover, .btn-ps.active { transform: translate(35px, 5px) rotate(-2deg); }
+.btn-ai:hover, .btn-ai.active { transform: translate(0, 0px) rotate(0deg); }
+.btn-blender:hover, .btn-blender.active { transform: translate(-32px, 5px) rotate(2deg); }
+
+/* --- 9. SIDE DECORS --- */
+.fixed-side-decor {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    height: 300px; width: auto; z-index: 2; pointer-events: none; margin-top: 180px;
+}
+.left-fixed { left: -500px; }
+.right-fixed { right: -500px; }
+
+/* --- 10. FLOOR & NEON FLARE EFFECTS --- */
+.dl-floor-wrapper {
+    position: absolute; bottom: 25px; left: -20px;
+    width: 100%; z-index: 5; pointer-events: none;
+}
+.dl-floor-wrapper svg { width: 100%; height: auto; display: block; }
+.floor-light { filter: drop-shadow(0 0 15px #00d2ff); opacity: 1; mix-blend-mode: overlay; }
+#led-stroke-track { opacity: 0.2; }
+#led-stroke {
+    stroke-dasharray: 0.5 100;
+    filter: drop-shadow(0 0 2px #ffffff) drop-shadow(0 0 8px #00d2ff) drop-shadow(0 0 15px #00d2ff) drop-shadow(0 0 30px #00d2ff);
+    animation: flareLoop 10s linear infinite; 
+}
+@keyframes flareLoop { 0% { stroke-dashoffset: 100; } 100% { stroke-dashoffset: 0; } }
+/* --- 11. ẨN CÁC THÀNH PHẦN MOBILE KHỎI DESKTOP --- */
+.mobile-bottom-panel {
+    display: none !important;
+}

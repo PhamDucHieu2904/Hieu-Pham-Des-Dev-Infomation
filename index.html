@@ -17,6 +17,19 @@
     <meta name="twitter:image" content="https://phamduchieu2904.github.io/Hieu-Pham-Des-Dev-Infomation/assets/Logo_Thumb.png">
 
     <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/design-lab-desktop.css" media="(orientation: landscape)">
+    <link rel="stylesheet" href="css/design-lab-mobile.css" media="(orientation: portrait)">
+    <style>
+        /* Tự động ẩn/hiện khối HTML khi xoay màn hình */
+        @media (orientation: landscape) {
+            #mobile-scene { display: none !important; }
+            #desktop-scene { display: flex !important; }
+        }
+        @media (orientation: portrait) {
+            #desktop-scene { display: none !important; }
+            #mobile-scene { display: flex !important; }
+        }
+    </style>
 </head>
 <body class="intro-step-1">
 
@@ -301,52 +314,44 @@
                     <h2>PHOTOSHOP</h2>
                 </div>
 
-                <div class="dl-scene" id="main-scene">
-                    <div class="dl-cylinder" id="software-cylinder">
+                <div class="dl-scene desktop-scene" id="desktop-scene">
+                    <div class="dl-cylinder" id="desktop-cylinder">
                         
-                        <div class="dl-software-slide slide-ps slide-mobile-only">
-                            <div class="dl-panel center-panel" data-target="ps-left"><svg><use href="#shape-mainscreen"></use></svg></div>
-                        </div>
-                        
-                        <div class="dl-software-slide slide-ps slide-desktop active-slide">
+                        <div class="dl-software-slide slide-desktop slide-ps active-slide">
                             <div class="dl-panel left-panel" data-target="ps-left"><svg><use href="#shape-sidescreen"></use></svg></div>
                             <div class="dl-panel center-panel" data-target="ps-center"><svg><use href="#shape-mainscreen"></use></svg></div>
                             <div class="dl-panel right-panel" data-target="ps-right"><svg><use href="#shape-sidescreen"></use></svg></div>
                         </div>
-                        
-                        <div class="dl-software-slide slide-ps slide-mobile-only">
-                            <div class="dl-panel center-panel" data-target="ps-right"><svg><use href="#shape-mainscreen"></use></svg></div>
-                        </div>
 
-
-                        <div class="dl-software-slide slide-ai slide-mobile-only">
-                            <div class="dl-panel center-panel" data-target="ai-left"><svg><use href="#shape-mainscreen"></use></svg></div>
-                        </div>
-                        
-                        <div class="dl-software-slide slide-ai slide-desktop">
+                        <div class="dl-software-slide slide-desktop slide-ai">
                             <div class="dl-panel left-panel" data-target="ai-left"><svg><use href="#shape-sidescreen"></use></svg></div>
                             <div class="dl-panel center-panel" data-target="ai-center"><svg><use href="#shape-mainscreen"></use></svg></div>
                             <div class="dl-panel right-panel" data-target="ai-right"><svg><use href="#shape-sidescreen"></use></svg></div>
                         </div>
-                        
-                        <div class="dl-software-slide slide-ai slide-mobile-only">
-                            <div class="dl-panel center-panel" data-target="ai-right"><svg><use href="#shape-mainscreen"></use></svg></div>
-                        </div>
 
-
-                        <div class="dl-software-slide slide-blender slide-mobile-only">
-                            <div class="dl-panel center-panel" data-target="blend-left"><svg><use href="#shape-mainscreen"></use></svg></div>
-                        </div>
-                        
-                        <div class="dl-software-slide slide-blender slide-desktop">
+                        <div class="dl-software-slide slide-desktop slide-blender">
                             <div class="dl-panel left-panel" data-target="blend-left"><svg><use href="#shape-sidescreen"></use></svg></div>
                             <div class="dl-panel center-panel" data-target="blend-center"><svg><use href="#shape-mainscreen"></use></svg></div>
                             <div class="dl-panel right-panel" data-target="blend-right"><svg><use href="#shape-sidescreen"></use></svg></div>
                         </div>
+
+                    </div>
+                </div>
+
+                <div class="dl-scene mobile-scene" id="mobile-scene">
+                    <div class="dl-cylinder" id="mobile-cylinder">
                         
-                        <div class="dl-software-slide slide-blender slide-mobile-only">
-                            <div class="dl-panel center-panel" data-target="blend-right"><svg><use href="#shape-mainscreen"></use></svg></div>
-                        </div>
+                        <div class="dl-software-slide slide-mobile mob-ps"><div class="dl-panel center-panel" data-target="ps-left"><svg><use href="#shape-mainscreen"></use></svg></div></div>
+                        <div class="dl-software-slide slide-mobile mob-ps active-slide"><div class="dl-panel center-panel" data-target="ps-center"><svg><use href="#shape-mainscreen"></use></svg></div></div>
+                        <div class="dl-software-slide slide-mobile mob-ps"><div class="dl-panel center-panel" data-target="ps-right"><svg><use href="#shape-mainscreen"></use></svg></div></div>
+                        
+                        <div class="dl-software-slide slide-mobile mob-ai"><div class="dl-panel center-panel" data-target="ai-left"><svg><use href="#shape-mainscreen"></use></svg></div></div>
+                        <div class="dl-software-slide slide-mobile mob-ai"><div class="dl-panel center-panel" data-target="ai-center"><svg><use href="#shape-mainscreen"></use></svg></div></div>
+                        <div class="dl-software-slide slide-mobile mob-ai"><div class="dl-panel center-panel" data-target="ai-right"><svg><use href="#shape-mainscreen"></use></svg></div></div>
+                        
+                        <div class="dl-software-slide slide-mobile mob-blend"><div class="dl-panel center-panel" data-target="blend-left"><svg><use href="#shape-mainscreen"></use></svg></div></div>
+                        <div class="dl-software-slide slide-mobile mob-blend"><div class="dl-panel center-panel" data-target="blend-center"><svg><use href="#shape-mainscreen"></use></svg></div></div>
+                        <div class="dl-software-slide slide-mobile mob-blend"><div class="dl-panel center-panel" data-target="blend-right"><svg><use href="#shape-mainscreen"></use></svg></div></div>
 
                     </div>
                 </div>
