@@ -55,9 +55,10 @@ window.addEventListener('resize', applySmartScaling);
 window.addEventListener('orientationchange', applySmartScaling); 
 
 // =========================================
-// 2. INTRO ANIMATION & TAB NAV (GIỮ NGUYÊN)
+// INTRO ANIMATION & TAB NAV (AN TOÀN TUYỆT ĐỐI)
 // =========================================
 document.addEventListener("DOMContentLoaded", () => {
+    // --- 1. CHẠY INTRO LOGO BAY LÊN (TRẢ LẠI NGUYÊN BẢN 100%) ---
     const body = document.body;
     body.classList.add('intro-step-1');
     setTimeout(() => {
@@ -68,23 +69,76 @@ document.addEventListener("DOMContentLoaded", () => {
         body.classList.remove('intro-step-2');
     }, 1500); 
 
-    const navButtons = document.querySelectorAll('.nav-menu .nav-btn');
-    const pages = document.querySelectorAll('.page-section');
+    // --- 2. HỆ THỐNG TRƯỢT TRANG KHI CLICK ---
+    const navButtons = Array.from(document.querySelectorAll('.nav-menu .nav-btn'));
+    const pages = Array.from(document.querySelectorAll('.page-section'));
+    const mainWrapper = document.querySelector('.main-wrapper');
+    
+    let currentPageIndex = 0; 
+    let isAnimating = false;  
 
-    navButtons.forEach(btn => {
+    // KHÔNG CAN THIỆP VÀO DISPLAY LÚC KHỞI ĐỘNG ĐỂ BẢO TOÀN CSS ANIMATION
+
+    navButtons.forEach((btn, index) => {
         btn.addEventListener('click', function(e) {
             e.preventDefault(); 
+            
+            // Khóa chốt an toàn
+            if (isAnimating || index === currentPageIndex) return; 
+            isAnimating = true;
+
             const targetId = this.getAttribute('href');
             const targetPage = document.querySelector(targetId);
-            if (!targetPage) return; 
+            const currentPage = pages[currentPageIndex];
+            if (!targetPage) { isAnimating = false; return; }
 
+            // Đổi màu Nút
             navButtons.forEach(nav => nav.classList.remove('active'));
             this.classList.add('active');
 
-            pages.forEach(page => page.style.display = 'none');
-            targetPage.style.display = 'flex'; 
+            // Tính toán hướng trượt
+            const isSlidingRight = index > currentPageIndex; 
+            const inClass = isSlidingRight ? 'slide-in-right' : 'slide-in-left';
+            const outClass = isSlidingRight ? 'slide-out-left' : 'slide-out-right';
+
+            // Xóa display:none, trả lại quyền hiển thị nguyên gốc cho trang đích (CSS sẽ tự lo)
+            targetPage.style.display = ''; 
             
-            document.body.classList.remove('intro-step-1', 'intro-step-2');
+            // Đo đạc và khóa chiều cao chống sập, chống giật thanh cuộn
+            const maxH = Math.max(currentPage.offsetHeight, targetPage.offsetHeight);
+            
+            mainWrapper.style.position = 'relative';
+            mainWrapper.style.overflowX = 'hidden';
+            mainWrapper.style.minHeight = maxH + 'px'; 
+
+            // Gắn class chuẩn bị trượt
+            currentPage.classList.add('sliding-page');
+            targetPage.classList.add('sliding-page');
+
+            // Ép trình duyệt tính toán lại layout ngay lập tức
+            void targetPage.offsetWidth; 
+
+            // Cấp lệnh chạy Animation
+            currentPage.classList.add(outClass);
+            targetPage.classList.add(inClass);
+
+            // Gỡ bỏ Intro nếu user click quá nhanh
+            body.classList.remove('intro-step-1', 'intro-step-2');
+
+            // 0.4s SAU: DỌN DẸP SẠCH SẼ
+            setTimeout(() => {
+                currentPage.style.display = 'none';
+                
+                currentPage.classList.remove('sliding-page', outClass);
+                targetPage.classList.remove('sliding-page', inClass);
+                
+                mainWrapper.style.position = '';
+                mainWrapper.style.overflowX = '';
+                mainWrapper.style.minHeight = ''; 
+                
+                currentPageIndex = index; 
+                isAnimating = false;      
+            }, 400); 
         });
     });
 });
