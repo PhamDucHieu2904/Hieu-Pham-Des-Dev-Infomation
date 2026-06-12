@@ -218,6 +218,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const imgSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
             imgSvg.setAttribute('viewBox', viewBox);
             imgSvg.classList.add('panel-img-layer');
+            if (!isSide) imgSvg.style.zIndex = '3';
             let foClass = isSide ? (isRight ? 'fo-right' : 'fo-left') : 'fo-center';
             
             imgSvg.innerHTML = `

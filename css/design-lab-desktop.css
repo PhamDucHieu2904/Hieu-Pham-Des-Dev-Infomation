@@ -186,7 +186,7 @@
     transform-style: preserve-3d;
 }
 
-.fo-center .glitch-wrapper { width: 70%; height: 80%; transform: translateY(-3%); }
+.fo-center .glitch-wrapper { width: 90%; height: 90%; transform: translateY(-3%); }
 
 .fo-left .glitch-wrapper {
     width: 120%; height: 90%;
