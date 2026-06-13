@@ -543,6 +543,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     img.loading = 'lazy'; 
                     img.onerror = function() { this.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAMLCwgAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=='; };
                     img.className = 'gallery-item';
+
+                    // === THÊM DÒNG NÀY VÀO ===
+                    // Cấm trình duyệt hiểu nhầm đây là hành động kéo ảnh ra Desktop
+                    img.draggable = false; 
+
                     galleryContent.appendChild(img);
                 });
 
@@ -562,6 +567,9 @@ document.addEventListener('DOMContentLoaded', function() {
         // ---------------------------------
         // LOGIC KÉO THẢ SLIDER (Chỉ chạy ở Desktop)
         // ---------------------------------
+        // ---------------------------------
+        // LOGIC KÉO THẢ SLIDER & GALLERY DRAG (Chỉ chạy ở Desktop)
+        // ---------------------------------
         let scrollProgress = 0; 
         let isSliderDragging = false;
 
@@ -576,6 +584,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
 
+        // A. Kéo bằng thanh Slider nhỏ
         sliderThumb.addEventListener('mousedown', () => { isSliderDragging = true; document.body.style.userSelect = 'none'; });
         document.addEventListener('mousemove', (e) => {
             if (!isSliderDragging) return;
@@ -592,8 +601,48 @@ document.addEventListener('DOMContentLoaded', function() {
         }, {passive: true});
         document.addEventListener('touchend', () => { isSliderDragging = false; });
 
+        // ===============================================
+        // B. KÉO TRỰC TIẾP TRÊN KHU VỰC HÌNH ẢNH (MỚI)
+        // ===============================================
+        let isGalleryDragging = false;
+        let startX;
+        let initialProgress;
+
+        showcaseGallery.addEventListener('mousedown', (e) => {
+            if(document.body.classList.contains('is-mobile-device')) return; // BẢO VỆ MOBILE
+            isGalleryDragging = true;
+            startX = e.pageX - showcaseGallery.offsetLeft;
+            initialProgress = scrollProgress;
+            galleryContent.style.transition = 'none'; // Tắt mượt để ảnh dính chặt chuột
+        });
+
+        showcaseGallery.addEventListener('mousemove', (e) => {
+            if (!isGalleryDragging || document.body.classList.contains('is-mobile-device')) return; // BẢO VỆ MOBILE
+            e.preventDefault();
+            const x = e.pageX - showcaseGallery.offsetLeft;
+            const walk = x - startX; 
+            const maxScroll = galleryContent.scrollWidth - showcaseGallery.clientWidth;
+
+            if (maxScroll > 0) {
+                let progressDelta = -walk / maxScroll;
+                updateSlider(initialProgress + progressDelta);
+            }
+        });
+
+        const stopGalleryDrag = () => {
+            if (!isGalleryDragging) return;
+            isGalleryDragging = false;
+            galleryContent.style.transition = 'transform 0.1s ease-out'; // Bật lại mượt
+        };
+
+        showcaseGallery.addEventListener('mouseup', stopGalleryDrag);
+        showcaseGallery.addEventListener('mouseleave', stopGalleryDrag);
+
+        // ===============================================
+        // C. CUỘN CHUỘT VÀ BÀN PHÍM
+        // ===============================================
         showcaseGallery.addEventListener('wheel', (e) => {
-            if(document.body.classList.contains('is-mobile-device')) return;
+            if(document.body.classList.contains('is-mobile-device')) return; // BẢO VỆ MOBILE
             const maxScroll = galleryContent.scrollWidth - showcaseGallery.clientWidth;
             if(maxScroll > 0) {
                 e.preventDefault(); 

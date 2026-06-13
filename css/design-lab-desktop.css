@@ -248,7 +248,8 @@
     pointer-events: none; z-index: 4; opacity: 0; 
 }
 
-.is-glitching .fo-base { animation: vhsFlicker 0.4s linear both; }
+/* Dời hiệu ứng chớp sáng ra khung tổng để bảo toàn lệnh trượt ảnh bên trong */
+.fo-image-wrap.is-glitching { animation: vhsFlicker 0.4s linear both; }
 .is-glitching .vhs-tracking { opacity: 1; animation: vhsRoll 0.4s linear infinite; }
 .is-glitching .glitch-r { visibility: visible; animation: vhsTearRed 0.4s steps(2, end) both; filter: drop-shadow(8px 0 0 red); }
 .is-glitching .glitch-c { visibility: visible; animation: vhsTearCyan 0.4s steps(2, end) both; filter: drop-shadow(-8px 0 0 cyan); }
@@ -312,6 +313,10 @@
 .showcase-gallery {
     position: absolute; top: 130px; left: 50px; right: 50px; bottom: 95px; 
     overflow: hidden; 
+    cursor: grab;
+}
+.showcase-gallery:active {
+    cursor: grabbing;
 }
 .gallery-content {
     display: flex; height: 100%; gap: 4px;
@@ -322,6 +327,10 @@
     background-color: rgba(255, 255, 255, 0.05); flex-shrink: 0; 
     display: flex; justify-content: center; align-items: center;
     color: #061832; font-size: 32px; font-weight: bold; font-family: Arial, sans-serif;
+    
+    /* === THÊM 2 DÒNG NÀY ĐỂ DIỆT GỐC LỖI === */
+    -webkit-user-drag: none; /* Cấm kéo ảnh bằng CSS */
+    user-select: none;       /* Cấm bôi đen xanh lè */
 }
 
 .showcase-slider-wrap {
@@ -396,4 +405,20 @@
 /* --- 11. ẨN CÁC THÀNH PHẦN MOBILE KHỎI DESKTOP --- */
 .mobile-bottom-panel {
     display: none !important;
+}
+/* =========================================
+   HIỆU ỨNG TRƯỢT POSTER (CHỈ DÀNH CHO MÀN GIỮA)
+   ========================================= */
+.fo-center .desk-thumb {
+    /* Ép chiều ngang vừa khít 100%, chiều cao tự do bung tràn màn hình */
+    background-size: 100% auto !important; 
+    background-position: center 0%; 
+    
+    /* Trượt lên xuống liên tục: 15s cho 1 lượt trượt, mượt mà ở 2 đầu */
+    animation: panPoster 10s ease-in-out infinite alternate !important;
+}
+
+@keyframes panPoster {
+    0%, 10%   { background-position: center 0%; }     /* Dừng ở trên đỉnh đọc Title */
+    90%, 100% { background-position: center 100%; }   /* Dừng ở dưới đáy đọc Footer */
 }
