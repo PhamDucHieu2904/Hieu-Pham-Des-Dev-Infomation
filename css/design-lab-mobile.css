@@ -224,10 +224,10 @@
 
 /* --- 7. MOBILE SHOWCASE MODAL (NATIVE SCROLL) --- */
 .showcase-modal {
-    position: absolute; top: 55%; left: 50%;
+    position: fixed; top: 55%; left: 50%;
     width: 863px; height: 1431px;
     transform: translate(-50%, -50%); 
-    margin-top: 335px; z-index: 100; 
+    margin-top: -215px; z-index: 100; 
     display: flex; justify-content: center; align-items: center;
     opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
 }
@@ -264,7 +264,8 @@
 
 .gallery-content { display: flex; flex-direction: column; gap: 10px; height: auto; }
 .gallery-item {
-    width: 100%; height: auto; aspect-ratio: 1 / 1; 
+    width: 100%; height: auto; height: auto; 
+    object-fit: contain;
     background-color: rgba(255, 255, 255, 0.05); flex-shrink: 0; 
     display: flex; justify-content: center; align-items: center;
     color: #061832; font-size: 32px; font-weight: bold; font-family: Arial, sans-serif;

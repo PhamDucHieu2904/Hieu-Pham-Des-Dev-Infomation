@@ -8,12 +8,16 @@
 .main-logo { transition: transform 1s cubic-bezier(0.77, 0, 0.17, 1); transform-origin: center center; }
 .top-header > *:not(.logo-container), .site-footer { transition: opacity 1s ease-in-out, margin-top 1s cubic-bezier(0.77, 0, 0.17, 1); }
 .main-wrapper { display: grid; grid-template-rows: 1fr; transition: grid-template-rows 1s cubic-bezier(0.77, 0, 0.17, 1); }
-.main-desk-section { min-height: 0; overflow: hidden; transition: opacity 1s ease-in-out, padding 1s cubic-bezier(0.77, 0, 0.17, 1); }
+
+/* Đổi .main-desk-section thành .page-section để áp dụng chung cho toàn bộ các trang */
+.page-section { min-height: 0; overflow: hidden; transition: opacity 1s ease-in-out, padding 1s cubic-bezier(0.77, 0, 0.17, 1); }
 
 body.intro-step-1 .main-logo { transform: translate(calc(910px - 50%), 400px) scale(3.5); }
 body.intro-step-1 .top-header > *:not(.logo-container), body.intro-step-1 .site-footer { opacity: 0; }
 body.intro-step-1 .main-wrapper, body.intro-step-2 .main-wrapper { grid-template-rows: 0fr; }
-body.intro-step-1 .main-desk-section, body.intro-step-2 .main-desk-section { opacity: 0; padding-top: 0; padding-bottom: 0; }
+
+/* Giấu TẤT CẢ các trang đi trong lúc chạy Intro */
+body.intro-step-1 .page-section, body.intro-step-2 .page-section { opacity: 0; padding-top: 0; padding-bottom: 0; }
 body.intro-step-1 .site-footer, body.intro-step-2 .site-footer { margin-top: 0; }
 
 body.intro-step-2 .main-logo { transform: translate(0, 0) scale(1); }
@@ -45,14 +49,17 @@ body:not(.intro-step-1):not(.intro-step-2) .main-wrapper { grid-template-rows: 1
         100% { transform: translate(0, 0) scale(1); opacity: 1; }           
     }
 
-    body.intro-step-1 .main-desk-section,
-    body.intro-step-2 .main-desk-section {
+    /* Tương tự, giấu toàn bộ các trang trên Mobile trong lúc chạy Intro */
+    body.intro-step-1 .page-section,
+    body.intro-step-2 .page-section {
         height: 0 !important;
         padding: 0 !important;
         margin: 0 !important;
         opacity: 0 !important;
+        overflow: hidden !important;
     }
 
+    /* Phục hồi chiều cao riêng của Main Desk khi Intro xong */
     body:not(.intro-step-1):not(.intro-step-2) .main-desk-section {
         height: 1880px !important;
         opacity: 1 !important;
@@ -124,6 +131,7 @@ body:not(.intro-step-1):not(.intro-step-2) .main-wrapper { grid-template-rows: 1
     85% { transform: translateY(-280px) scale(0.6); opacity: 0.8; }
     100% { transform: translateY(-330px) scale(0); opacity: 0; }
 }
+
 /* -----------------------------------------
    4. PAGE TRANSITIONS (CHỈ KÍCH HOẠT KHI CLICK)
    ----------------------------------------- */

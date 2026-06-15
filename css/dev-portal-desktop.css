@@ -1,0 +1,142 @@
+/* =========================================================================
+   DEV PORTAL - DESKTOP EDITION
+   ========================================================================= */
+
+.dev-portal-section {
+    position: relative;
+    width: 1920px;
+    height: 830px; 
+    margin: 0 auto;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; 
+}
+
+/* Nền tĩnh màu xanh đen */
+.dp-space-bg {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: #050914; 
+    z-index: 1;
+}
+
+.dp-container {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px; /* Căn chỉnh khoảng cách từ top */
+}
+
+/* --- HEADER & LOGO --- */
+.dp-header {
+    position: relative;
+    width: 100%;
+    height: 101.74px;
+}
+.dp-header svg {
+    display: block;
+    width: 100%; height: 100%;
+}
+.dp-project-logo {
+    position: absolute;
+    top: 35px;    /* Canh chỉnh vị trí logo trên nền SVG */
+    left: 45px;
+    height: 45px; /* Kích thước logo */
+    width: auto;
+}
+
+/* --- PANEL 710PX --- */
+.dp-panel {
+    width: 100%;
+    height: 710px;
+    background-color: #ffffff; 
+    display: flex;
+    flex-direction: column; /* Ép Header và Body nằm dọc */
+}
+.dp-body {
+    display: flex;
+    flex: 1; /* Tự động lấp đầy chiều cao còn lại của Panel 710px */
+    padding: 35px 50px;
+    gap: 50px;
+    overflow: hidden; /* Không cho nội dung tràn ra khỏi khung */
+}
+/* CỘT TRÁI: ẢNH THUMBNAIL */
+.dp-media-col {
+    flex: 1;
+    max-width: 900px;
+    height: 100%;
+    background-color: #e8e8e8;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+.dp-media-col img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: left top;
+    transition: transform 0.4s ease;
+}
+.dp-media-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(0, 21, 50, 0.6);
+    display: flex; justify-content: center; align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+.dp-media-col:hover img { transform: scale(1.03); }
+.dp-media-col:hover .dp-media-overlay { opacity: 1; }
+
+/* CỘT PHẢI: NỘI DUNG TEXT */
+.dp-content-col {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto; 
+    padding-right: 20px; /* Chừa không gian cho thanh cuộn nếu text quá dài */
+}
+.dp-content-col::-webkit-scrollbar { width: 6px; }
+.dp-content-col::-webkit-scrollbar-track { background: #f1f1f1; }
+.dp-content-col::-webkit-scrollbar-thumb { background: #001532; }
+
+.dp-title-wrap { display: flex; align-items: baseline; gap: 15px; margin-bottom: 5px; }
+.dp-title { font-size: 46px; font-weight: 900; color: #001532; margin: 0; }
+.dp-subtitle { font-size: 32px; font-weight: 900; color: #001532; }
+
+.dp-heading {
+    font-size: 24px; font-weight: 900; color: #000000;
+    margin-top: 25px; margin-bottom: 12px;
+    display: flex; align-items: center; white-space: nowrap;
+}
+.dp-line {
+    flex: 1; height: 1.5px; background-color: #000000; margin-left: 15px;
+}
+
+.dp-desc {
+    font-size: 19px; font-weight: 400; color: #000000; line-height: 1.5; margin: 0;
+}
+
+.dp-list { list-style-type: none; padding: 0; margin: 0; }
+.dp-list li {
+    position: relative; font-size: 19px; font-weight: 400; color: #000000;
+    line-height: 1.5; margin-bottom: 15px; padding-left: 20px;
+}
+.dp-list li::before {
+    content: "•"; position: absolute; left: 0; color: #000000; font-weight: 900;
+}
+/* --- NÂNG CẤP: TECH TAGS & ACTION BUTTONS --- */
+.dp-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px; margin-bottom: 25px; }
+.dp-tag { background-color: #e6e6e6; color: #001532; padding: 6px 15px; border-radius: 20px; font-size: 14px; font-weight: 900; letter-spacing: 0.5px; }
+
+.dp-actions { margin-top: 30px; display: flex; gap: 15px; padding-bottom: 40px; }
+.dp-btn { padding: 12px 30px; font-size: 16px; font-weight: 900; text-decoration: none; cursor: pointer; transition: all 0.3s ease; border: 2px solid #001532; text-align: center; }
+.dp-btn-primary { background-color: #001532; color: #ffffff; }
+.dp-btn-primary:hover { background-color: #ffffff; color: #001532; }
+.dp-btn-disabled { background-color: #e6e6e6; color: #a0a0a0; border-color: #e6e6e6; cursor: not-allowed; }
+/* --- KIỂM SOÁT SVG HEADER --- */
+.dp-svg-mobile { display: none !important; }
+.dp-svg-desktop { display: block; width: 100%; height: 100%; }

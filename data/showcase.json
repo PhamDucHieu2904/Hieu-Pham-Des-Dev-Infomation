@@ -64,5 +64,31 @@
         "desc": "Hand-drawn digital illustrations and concept arts.",
         "images": [
         ]
-    }
+    },
+
+    "dev_labellab": {
+    "title": "LABELLAB",
+    "subtitle": "(3D MOCKUP SYSTEM)",
+    "logo": "assets/LabellabLogo.svg",
+    "overview": "Labellab is a specialized 3D mockup project developed exclusively for the Nam Viet Group. Built on the Unity Engine, the software features a secure login system and utilizes Unity Addressables for seamless data management and automated version updates.",
+    "tech_tags": ["Unity Engine", "C#", "Addressables", "HDRP", "3D Rendering"],
+    "features": [
+      "Comprehensive 3D Mockups: Generate precise 3D mockups for all types of packaging, including bottles, cans, packs, trays, and cartons across the entire product line.",
+      "3D Video Production: Capture and export high-quality 3D videos for any product.",
+      "Dimension & Dieline Hub: Quickly look up precise dimensions and directly download dielines for all packaging formats."
+    ],
+    "advantages": [
+      "All-in-One Convenience: Consolidates every packaging type into a single, highly searchable, and user-friendly application.",
+      "Effortless Customization: Designed for general users with zero 3D background. You can easily adjust material parameters (liquid type, liquid color, roughness, glossiness, metallic), camera settings (angles, position, focal length), and scene setups (lighting, environments, podiums).",
+      "Highly Optimized & Lightweight: Despite being a full 3D application, Labellab runs flawlessly on standard office computers. It features an intelligent hardware tiering system that automatically reads system specs and scales functionality to match the configuration. (For context: A GTX 1650 graphics card can run the app smoothly and render outputs in a split second)."
+    ],
+    "mediaType": "gallery", 
+    "videoUrl": "", 
+    "images": [
+      "assets/image2/LabellabThumb1.webp","assets/image2/LabellabThumb2.webp","assets/image2/LabellabThumb3.webp","assets/image2/LabellabThumb4.webp","assets/image2/LabellabThumb5.webp"
+    ],
+    "buttons": [
+      { "label": "Private Project", "link": "#", "type": "disabled" }
+    ]
+  }
 }

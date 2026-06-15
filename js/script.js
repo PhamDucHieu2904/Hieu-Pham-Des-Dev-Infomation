@@ -187,6 +187,7 @@ document.addEventListener('DOMContentLoaded', function() {
             initDesktopScreens(); // Bơm Data cho khối 3D Desktop
             initMobileScreens();  // Bơm Data cho khối SVG Mobile
             initShowcaseModal();  // Khởi tạo bảng Popup
+            initDevPortal(); 
         })
         .catch(error => console.error("Lỗi khi tải Database JSON:", error));
 
@@ -583,7 +584,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 galleryContent.style.transform = `translateX(-${scrollProgress * maxScroll}px)`;
             }
         }
-
+        window.resetShowcaseSlider = function() {
+            if(document.body.classList.contains('is-mobile-device')) {
+                showcaseGallery.scrollTop = 0;
+            } else {
+                updateSlider(0);
+            }
+        };
         // A. Kéo bằng thanh Slider nhỏ
         sliderThumb.addEventListener('mousedown', () => { isSliderDragging = true; document.body.style.userSelect = 'none'; });
         document.addEventListener('mousemove', (e) => {
@@ -661,5 +668,116 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         closeShowcaseBtn.addEventListener('click', () => { showcaseModal.classList.remove('active'); });
+    }
+    // ==========================================
+    // KHỐI 6: KHỞI TẠO DEV PORTAL
+    // ==========================================
+    function initDevPortal() {
+        const dpData = showcaseData['dev_labellab'];
+        if (!dpData) return;
+
+        // 1. Bơm Text Cơ Bản
+        const titleEl = document.getElementById('dp-title-text');
+        const subtitleEl = document.getElementById('dp-subtitle-text');
+        const overviewEl = document.getElementById('dp-overview-text');
+        if(titleEl) titleEl.innerText = dpData.title;
+        if(subtitleEl) subtitleEl.innerText = dpData.subtitle;
+        if(overviewEl) overviewEl.innerText = dpData.overview;
+
+        // 2. Bơm Tech Tags
+        const tagsList = document.getElementById('dp-tags-list');
+        if (tagsList && dpData.tech_tags) {
+            tagsList.innerHTML = '';
+            dpData.tech_tags.forEach(tag => {
+                let span = document.createElement('span');
+                span.className = 'dp-tag';
+                span.innerText = tag;
+                tagsList.appendChild(span);
+            });
+        }
+
+        // 3. Bơm Lists (Features & Advantages)
+        const populateList = (elementId, dataArray) => {
+            const listEl = document.getElementById(elementId);
+            if (!listEl || !dataArray) return;
+            listEl.innerHTML = '';
+            dataArray.forEach(item => {
+                let li = document.createElement('li');
+                li.innerText = item;
+                listEl.appendChild(li);
+            });
+        };
+        populateList('dp-features-list', dpData.features);
+        populateList('dp-advantages-list', dpData.advantages);
+
+        // 4. Bơm Nút Bấm (Action Buttons)
+        const btnsList = document.getElementById('dp-action-btns');
+        if (btnsList && dpData.buttons) {
+            btnsList.innerHTML = '';
+            dpData.buttons.forEach(btn => {
+                let a = document.createElement('a');
+                a.href = btn.link;
+                a.className = btn.type === 'disabled' ? 'dp-btn dp-btn-disabled' : 'dp-btn dp-btn-primary';
+                a.innerText = btn.label;
+                if(btn.type === 'disabled') a.addEventListener('click', e => e.preventDefault());
+                else a.target = "_blank";
+                btnsList.appendChild(a);
+            });
+        }
+
+        // 5. Bơm Ảnh Thumbnail & Xử Lý Logic Click (Static/Gallery/Video)
+        const mainThumb = document.getElementById('dp-main-thumb');
+        const mediaTrigger = document.getElementById('dp-media-trigger');
+        const overlay = document.querySelector('.dp-media-overlay');
+        
+        if (dpData.images && dpData.images.length > 0 && mainThumb) {
+            mainThumb.src = dpData.images[0];
+        }
+
+        if (dpData.mediaType === 'static') {
+            // Tắt chức năng click mở modal
+            mediaTrigger.style.cursor = 'default';
+            if (overlay) overlay.style.display = 'none';
+        } else {
+            // Kích hoạt click mở Showcase Modal (Tái sử dụng Panel của Design Lab)
+            mediaTrigger.addEventListener('click', () => {
+                const showcaseModal = document.getElementById('showcase-modal');
+                const galleryContent = document.getElementById('gallery-content');
+                const modalTitle = document.querySelector('.showcase-title');
+                const modalFooter = document.querySelector('.showcase-footer p');
+                const sliderWrap = document.getElementById('showcase-slider');
+
+                if (modalTitle) modalTitle.innerText = dpData.title;
+                if (modalFooter) modalFooter.innerText = dpData.subtitle;
+
+                galleryContent.innerHTML = ''; 
+
+                if (dpData.mediaType === 'video' && dpData.videoUrl) {
+                    // Nếu là Video: Nhúng iframe YouTube
+                    const iframe = document.createElement('iframe');
+                    iframe.src = dpData.videoUrl;
+                    iframe.className = 'gallery-item';
+                    iframe.style.border = 'none';
+                    iframe.allowFullscreen = true;
+                    iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+                    galleryContent.appendChild(iframe);
+                    if(sliderWrap) sliderWrap.style.display = 'none'; // Ẩn thanh kéo nếu là video
+                } else {
+                    // Nếu là Gallery: Render ảnh như bình thường
+                    if(sliderWrap) sliderWrap.style.display = 'flex';
+                    dpData.images.forEach(src => {
+                        const img = document.createElement('img');
+                        img.src = src; img.loading = 'lazy'; img.draggable = false; 
+                        img.className = 'gallery-item';
+                        galleryContent.appendChild(img);
+                    });
+                }
+
+                // Reset vị trí slider
+                if(window.resetShowcaseSlider) window.resetShowcaseSlider();
+                
+                showcaseModal.classList.add('active');
+            });
+        }
     }
 });
