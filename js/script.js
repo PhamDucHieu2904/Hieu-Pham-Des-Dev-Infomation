@@ -565,7 +565,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const scrollY = window.scrollY || document.documentElement.scrollTop;
                 
                 // Công thức: Cuộn chuột + Tọa độ đáy Nav bar + 50px khoảng cách
-                showcaseModal.style.top = `${scrollY + headerRect.bottom + 35}px`;
+                showcaseModal.style.top = `${scrollY + headerRect.bottom + 30}px`;
 
                 // Khóa nền chống cuộn nếu là Mobile
                 if (document.body.classList.contains('is-mobile-device')) {
@@ -801,7 +801,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const scrollY = window.scrollY || document.documentElement.scrollTop;
                 
                 // Công thức: Cuộn chuột + Tọa độ đáy Nav bar + 50px khoảng cách
-                showcaseModal.style.top = `${scrollY + headerRect.bottom + 35}px`;
+                showcaseModal.style.top = `${scrollY + headerRect.bottom + 30}px`;
 
                 // Khóa nền chống cuộn nếu là Mobile
                 if (document.body.classList.contains('is-mobile-device')) {
