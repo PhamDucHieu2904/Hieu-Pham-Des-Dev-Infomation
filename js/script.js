@@ -571,6 +571,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (document.body.classList.contains('is-mobile-device')) {
                     document.body.style.overflow = 'hidden'; 
                 }
+                showcaseModal.style.display = 'flex';
+                void showcaseModal.offsetWidth;
                 showcaseModal.classList.add('active');
             });
         });
@@ -676,8 +678,17 @@ document.addEventListener('DOMContentLoaded', function() {
             else if (e.key === 'ArrowLeft') updateSlider(scrollProgress - 0.05);
             else if (e.key === 'Escape') showcaseModal.classList.remove('active');
         });
+        closeShowcaseBtn.addEventListener('click', () => { 
+            showcaseModal.classList.remove('active'); 
+            document.body.style.overflow = ''; // Mở khóa vuốt
 
-        closeShowcaseBtn.addEventListener('click', () => { showcaseModal.classList.remove('active'); document.body.style.overflow = '';});
+            // Đợi 0.3s cho hiệu ứng mờ dần (opacity) chạy xong rồi mới giấu hẳn
+            setTimeout(() => {
+                if (!showcaseModal.classList.contains('active')) {
+                    showcaseModal.style.display = 'none';
+                }
+            }, 300);
+        });
     }
     // ==========================================
     // KHỐI 6: KHỞI TẠO DEV PORTAL
@@ -796,6 +807,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (document.body.classList.contains('is-mobile-device')) {
                     document.body.style.overflow = 'hidden'; 
                 }
+                showcaseModal.style.display = 'flex';
+                void showcaseModal.offsetWidth;
                 showcaseModal.classList.add('active');
             });
         }

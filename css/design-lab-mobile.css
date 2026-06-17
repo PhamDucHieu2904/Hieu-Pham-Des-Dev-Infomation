@@ -15,7 +15,7 @@
     
     /* FIX LỖI LỆCH TRÁI: Dùng 100% để ép Section bung đầy Canvas 1080px thay vì 100vw */
     width: 100%; 
-    height: 100vh;
+    height: 85vh;
     
     margin: 0 auto;
     overflow: hidden;
@@ -228,7 +228,7 @@
     width: 863px; height: 1431px;
     transform: translateX(-50%); 
     z-index: 100; 
-    display: flex; justify-content: center; align-items: center;
+    display: none; justify-content: center; align-items: center;
     opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
 }
 .showcase-modal.active { opacity: 1; pointer-events: auto; }
@@ -279,8 +279,9 @@
     z-index: 5; 
     pointer-events: none;
 }
-.dl-floor-wrapper svg { width: 100%; height: auto; display: block; }
-
+.dl-floor-wrapper {
+    display: none !important;
+}
 .floor-light { filter: drop-shadow(0 0 15px #00d2ff); opacity: 1; mix-blend-mode: overlay; }
 #led-stroke-track { opacity: 0.2; }
 #led-stroke {
