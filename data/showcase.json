@@ -60,9 +60,19 @@
         ]
     },
     "ps-right": {
-        "title": "DIGITAL PAINTING",
+        "title": "COLLAGE IMG",
         "desc": "Hand-drawn digital illustrations and concept arts.",
         "images": [
+          "assets/image3/Psd_Edit_0.webp",
+          "assets/image3/Psd_Edit_1.webp",
+          "assets/image3/Psd_Edit_2.webp",
+          "assets/image3/Psd_Edit_3.webp",
+          "assets/image3/Psd_Edit_4.webp",
+          "assets/image3/Psd_Edit_5.webp",
+          "assets/image3/Psd_Edit_6.webp",
+          "assets/image3/Psd_Edit_7.webp",
+          "assets/image3/Psd_Edit_8.webp",
+          "assets/image3/Psd_Edit_9.webp"
         ]
     },
 

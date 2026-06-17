@@ -194,13 +194,12 @@
     transform: translateX(-5%) rotateY(24deg) scaleX(1.2) scaleY(1.07);
 }
 
-.fo-right .fo-wrapper { transform: scaleX(-1); }
+.fo-wrapper.fo-right { transform: scaleX(-1); }
 .fo-right .glitch-wrapper {
     width: 120%; height: 90%;
-    transform-origin: left center;
-    transform: translateX(-5%) rotateY(24deg) scaleX(-1.2) scaleY(1.07); 
+    transform-origin: right center;
+    transform: translateX(-5%) rotateY(-24deg) scaleX(1.1) scaleY(1.07); 
 }
-
 /* --- 6. ẢNH NÉT VÀ HIỆU ỨNG GLITCH (DESKTOP) --- */
 .thumb-bg {
     position: absolute; top: 0; left: 0;
