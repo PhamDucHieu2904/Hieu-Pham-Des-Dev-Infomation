@@ -224,10 +224,10 @@
 
 /* --- 7. MOBILE SHOWCASE MODAL (NATIVE SCROLL) --- */
 .showcase-modal {
-    position: absolute; top: 55%; left: 50%;
+    position: absolute; left: 50%;
     width: 863px; height: 1431px;
-    transform: translate(-50%, -50%); 
-    margin-top: -215px; z-index: 100; 
+    transform: translateX(-50%); 
+    z-index: 100; 
     display: flex; justify-content: center; align-items: center;
     opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
 }

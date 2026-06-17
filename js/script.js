@@ -560,18 +560,16 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (sliderWrap) sliderWrap.style.setProperty('--progress', `0%`);
                     galleryContent.style.transform = `translateX(0px)`;
                 }
+                const headerEl = document.querySelector('.top-header');
+                const headerRect = headerEl.getBoundingClientRect(); // Lấy tọa độ thực tế của Nav bar trên màn hình
                 const scrollY = window.scrollY || document.documentElement.scrollTop;
                 
+                // Công thức: Cuộn chuột + Tọa độ đáy Nav bar + 50px khoảng cách
+                showcaseModal.style.top = `${scrollY + headerRect.bottom + 35}px`;
+
+                // Khóa nền chống cuộn nếu là Mobile
                 if (document.body.classList.contains('is-mobile-device')) {
-                    // 1. NẾU LÀ ĐIỆN THOẠI (MOBILE)
-                    // Chỉnh số ở đây (Ví dụ: - 50 để nhích lên cao một chút)
-                    showcaseModal.style.top = `${scrollY + (window.innerHeight / 2) + 110}px`;
-                    
-                    document.body.style.overflow = 'hidden'; // Khóa nền chỉ trên mobile
-                } else {
-                    // 2. NẾU LÀ MÁY TÍNH (DESKTOP)
-                    // Chỉnh số ở đây (Ví dụ: + 100 để hạ thấp xuống)
-                    showcaseModal.style.top = `${scrollY + (window.innerHeight / 2) + 70}px`;
+                    document.body.style.overflow = 'hidden'; 
                 }
                 showcaseModal.classList.add('active');
             });
@@ -787,18 +785,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 // Reset vị trí slider
                 if(window.resetShowcaseSlider) window.resetShowcaseSlider();
+                const headerEl = document.querySelector('.top-header');
+                const headerRect = headerEl.getBoundingClientRect(); // Lấy tọa độ thực tế của Nav bar trên màn hình
                 const scrollY = window.scrollY || document.documentElement.scrollTop;
                 
+                // Công thức: Cuộn chuột + Tọa độ đáy Nav bar + 50px khoảng cách
+                showcaseModal.style.top = `${scrollY + headerRect.bottom + 35}px`;
+
+                // Khóa nền chống cuộn nếu là Mobile
                 if (document.body.classList.contains('is-mobile-device')) {
-                    // 1. NẾU LÀ ĐIỆN THOẠI (MOBILE)
-                    // Chỉnh số ở đây (Ví dụ: - 50 để nhích lên cao một chút)
-                    showcaseModal.style.top = `${scrollY + (window.innerHeight / 2) + 110}px`;
-                    
-                    document.body.style.overflow = 'hidden'; // Khóa nền chỉ trên mobile
-                } else {
-                    // 2. NẾU LÀ MÁY TÍNH (DESKTOP)
-                    // Chỉnh số ở đây (Ví dụ: + 100 để hạ thấp xuống)
-                    showcaseModal.style.top = `${scrollY + (window.innerHeight / 2) + 70}px`;
+                    document.body.style.overflow = 'hidden'; 
                 }
                 showcaseModal.classList.add('active');
             });
