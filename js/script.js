@@ -560,7 +560,19 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (sliderWrap) sliderWrap.style.setProperty('--progress', `0%`);
                     galleryContent.style.transform = `translateX(0px)`;
                 }
-
+                const scrollY = window.scrollY || document.documentElement.scrollTop;
+                
+                if (document.body.classList.contains('is-mobile-device')) {
+                    // 1. NẾU LÀ ĐIỆN THOẠI (MOBILE)
+                    // Chỉnh số ở đây (Ví dụ: - 50 để nhích lên cao một chút)
+                    showcaseModal.style.top = `${scrollY + (window.innerHeight / 2) + 110}px`;
+                    
+                    document.body.style.overflow = 'hidden'; // Khóa nền chỉ trên mobile
+                } else {
+                    // 2. NẾU LÀ MÁY TÍNH (DESKTOP)
+                    // Chỉnh số ở đây (Ví dụ: + 100 để hạ thấp xuống)
+                    showcaseModal.style.top = `${scrollY + (window.innerHeight / 2) + 70}px`;
+                }
                 showcaseModal.classList.add('active');
             });
         });
@@ -667,7 +679,7 @@ document.addEventListener('DOMContentLoaded', function() {
             else if (e.key === 'Escape') showcaseModal.classList.remove('active');
         });
 
-        closeShowcaseBtn.addEventListener('click', () => { showcaseModal.classList.remove('active'); });
+        closeShowcaseBtn.addEventListener('click', () => { showcaseModal.classList.remove('active'); document.body.style.overflow = '';});
     }
     // ==========================================
     // KHỐI 6: KHỞI TẠO DEV PORTAL
@@ -775,7 +787,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 // Reset vị trí slider
                 if(window.resetShowcaseSlider) window.resetShowcaseSlider();
+                const scrollY = window.scrollY || document.documentElement.scrollTop;
                 
+                if (document.body.classList.contains('is-mobile-device')) {
+                    // 1. NẾU LÀ ĐIỆN THOẠI (MOBILE)
+                    // Chỉnh số ở đây (Ví dụ: - 50 để nhích lên cao một chút)
+                    showcaseModal.style.top = `${scrollY + (window.innerHeight / 2) + 110}px`;
+                    
+                    document.body.style.overflow = 'hidden'; // Khóa nền chỉ trên mobile
+                } else {
+                    // 2. NẾU LÀ MÁY TÍNH (DESKTOP)
+                    // Chỉnh số ở đây (Ví dụ: + 100 để hạ thấp xuống)
+                    showcaseModal.style.top = `${scrollY + (window.innerHeight / 2) + 70}px`;
+                }
                 showcaseModal.classList.add('active');
             });
         }
